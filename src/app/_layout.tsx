@@ -4,6 +4,7 @@ import { ContextProvider } from "../context/context";
 import { Box, Image, NativeBaseProvider } from "native-base";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import Toast from "react-native-toast-message";
 
 export default function Layout() {
   const [fontsLoaded, fontError] = useFonts({

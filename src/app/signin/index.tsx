@@ -22,15 +22,17 @@ import { screens } from "../../mock/screens";
 import { Formik } from "formik";
 import useSignin from "../../hooks/useSignin";
 import { loginSchema } from "../../utils/schema";
+import { router } from "expo-router";
 
 export default function SignIn() {
   const [show, setShow] = React.useState(false);
   const { signIn } = useSignin();
-  const { isLoading, setIsLoading, navigation } = useGlobalContext();
+  const { isLoading, setIsLoading, navigation, setIsAuth } = useGlobalContext();
 
-  const handleSubmit = async (values: { email: string; senha: string }) => {
+  const handleSubmit = async (values: { email: string; senha: string }, resetForm: any) => {
     try {
       setIsLoading(true);
+
       const validated = await loginSchema
         .validate(values)
         .then(() => true)
@@ -42,15 +44,17 @@ export default function SignIn() {
           });
           return false;
         });
+
       if (validated) {
         const response = await signIn(values);
+        console.log("Resposta da API:", response);
+
         if (response) {
           navigation(screens.user, true);
-
-          // setIsAuth(true);
-          // router.navigate("/home");
-          // resetForm();
-        }
+          setIsAuth(true);
+          router.navigate("/home");
+          resetForm();
+        } 
       }
     } finally {
       setIsLoading(false);
@@ -74,7 +78,7 @@ export default function SignIn() {
           <VStack space={3} mt="5">
             <Formik
               initialValues={{ email: "", senha: "" }}
-              onSubmit={(values) => handleSubmit(values)}
+              onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
             >
               {({ handleChange, handleSubmit, values }) => (
                 <>

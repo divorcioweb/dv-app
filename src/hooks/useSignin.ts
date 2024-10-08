@@ -1,7 +1,8 @@
 import { Toast } from "native-base";
-import { api } from "../services/api";
 
 export default function useSignin() {
+  const api = process.env.EXPO_PUBLIC_API_URL as string;
+
   const signIn = async ({ email, senha }: { email: string; senha: string }) => {
     try {
       const response = await fetch(api + "/auth/login", {
