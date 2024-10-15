@@ -133,7 +133,7 @@ export default function SignIn() {
                     mx="auto"
                     colorScheme={colors.yellow}
                     // onPress={() => handleSubmit()}
-                    onPress={() => navigation("user")}
+                    onPress={() => navigation("provision-of-services")}
                   >
                     <Text fontFamily="PathwayBold">Entrar</Text>
                   </Button>
