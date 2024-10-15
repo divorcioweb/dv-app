@@ -12,7 +12,6 @@ import { types } from "./data";
 import { colors } from "../../theme/colors";
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
 export default function UploadFile({
   pickDocument,

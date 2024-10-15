@@ -77,7 +77,7 @@ export default function Upload() {
     return (
       <HStack alignItems={"center"} h={"25px"}>
         <Box w={"15%"} alignItems={"center"}>
-          <AntDesign name="file1" size={20} color="black" />
+          <AntDesign name="file1" size={16} color="black" />
         </Box>
         <Box w={"70%"}>
           <Text ml={"10px"}>{item.nome}</Text>
@@ -121,27 +121,19 @@ export default function Upload() {
               <HStack space={3}>
                 <Text>-</Text>
                 <Text fontFamily="PathwayRegular" fontSize={16}>
-                  Cópia do RG e CPF;
+                  ID e CPF;
                 </Text>
               </HStack>
               <HStack space={3}>
                 <Text>-</Text>
                 <Text fontFamily="PathwayRegular" fontSize={16}>
-                  Certidão de casamento atualizada no prazo de 90 dias (e caso
-                  não possua - no caso de moradores do exterior, entra em
-                  contato);
+                  Certidão de casamento ou escritura de união estável;
                 </Text>
               </HStack>
               <HStack space={3}>
                 <Text>-</Text>
                 <Text fontFamily="PathwayRegular" fontSize={16}>
-                  Comprovante de endereço;
-                </Text>
-              </HStack>
-              <HStack space={3}>
-                <Text>-</Text>
-                <Text fontFamily="PathwayRegular" fontSize={16}>
-                  Se existirem filhos, apresentar certidão de nascimento.
+                  Comprovante de residência (Água, luz ou telefone).
                 </Text>
               </HStack>
             </Box>
@@ -255,7 +247,7 @@ export default function Upload() {
                   NOME
                 </Text>
               </HStack>
-              <VStack minH={"10"} maxH={"32"} backgroundColor={"white"}>
+              <VStack minH={"25"} maxH={"25"} backgroundColor={"white"}>
                 <FlatList
                   data={selectedFile}
                   renderItem={CardUp}

@@ -24,7 +24,7 @@ export default function Second() {
         alignItems="center"
         style={{ backgroundColor: colors.background }}
       >
-        <ScrollView w={"full"}>
+        <ScrollView w={"full"} h={'full'}>
           <Center>
             <VStack p="2" py="10" w="100%" maxW="360">
               <Center>

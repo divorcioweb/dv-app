@@ -35,6 +35,7 @@ export default function Layout() {
         <Stack.Screen name="payment-conjuge" options={{ headerShown: false }} />
         <Stack.Screen name="certificate" options={{ headerShown: false }} />
         <Stack.Screen name="change-password" options={{ headerShown: false }} />
+        <Stack.Screen name="bug" options={{ headerShown: false }} />
       </Stack>
     </>
   );

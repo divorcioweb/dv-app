@@ -29,7 +29,10 @@ export default function SignIn() {
   const { signIn } = useSignin();
   const { isLoading, setIsLoading, navigation, setIsAuth } = useGlobalContext();
 
-  const handleSubmit = async (values: { email: string; senha: string }, resetForm: any) => {
+  const handleSubmit = async (
+    values: { email: string; senha: string },
+    resetForm: any
+  ) => {
     try {
       setIsLoading(true);
 
@@ -54,7 +57,7 @@ export default function SignIn() {
           setIsAuth(true);
           router.navigate("/home");
           resetForm();
-        } 
+        }
       }
     } finally {
       setIsLoading(false);
@@ -78,7 +81,9 @@ export default function SignIn() {
           <VStack space={3} mt="5">
             <Formik
               initialValues={{ email: "", senha: "" }}
-              onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
+              onSubmit={(values, { resetForm }) =>
+                handleSubmit(values, resetForm)
+              }
             >
               {({ handleChange, handleSubmit, values }) => (
                 <>
@@ -127,7 +132,8 @@ export default function SignIn() {
                     rounded="2xl"
                     mx="auto"
                     colorScheme={colors.yellow}
-                    onPress={() => handleSubmit()}
+                    // onPress={() => handleSubmit()}
+                    onPress={() => navigation("user")}
                   >
                     <Text fontFamily="PathwayBold">Entrar</Text>
                   </Button>

@@ -1,6 +1,4 @@
-import { IScreens } from "../interfaces/screens";
-
-export const screens: IScreens = {
+export const screens = {
   primary: "index",
   second: "second",
   user: "user",
@@ -14,4 +12,5 @@ export const screens: IScreens = {
   calendar: "calendar",
   certificate: "certificate",
   payment: "payment",
+  bug: "bug",
 };

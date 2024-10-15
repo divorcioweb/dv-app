@@ -1,4 +1,12 @@
-import { Button, Center, Heading, Modal, Pressable, Text, VStack } from "native-base";
+import {
+  Button,
+  Center,
+  Heading,
+  Modal,
+  Pressable,
+  Text,
+  VStack,
+} from "native-base";
 import { colors } from "../../../theme/colors";
 import React, { useState } from "react";
 
@@ -9,6 +17,7 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
   Feather,
+  Ionicons,
 } from "@expo/vector-icons";
 import Footer from "../../../components/Footer/Footer";
 import { useGlobalContext } from "../../../context/context";
@@ -25,15 +34,13 @@ export default function Setting() {
         <Center
           w="100%"
           h="100%"
-          pb={100}
           style={{ backgroundColor: colors.background }}
         >
           <VStack
-            backgroundColor={colors.background}
-            h="full"
+            // backgroundColor={colors.background}
             w="full"
             maxW={350}
-            mt={20}
+            mt={5}
           >
             <Heading fontFamily="PathwayBold" fontSize={32}>
               Configurações
@@ -42,9 +49,9 @@ export default function Setting() {
               Acompanhe abaixo as etapas agendadas
             </Text>
 
-            <VStack mt={12}>
+            <VStack mt={8}>
               <Button
-                onPress={() => console.log("teste")}
+                onPress={() => navigation(screens.changePassword)}
                 justifyContent={"flex-start"}
                 backgroundColor={"transparent"}
                 leftIcon={<AntDesign name="lock1" size={25} color="black" />}
@@ -95,6 +102,45 @@ export default function Setting() {
                   Fale com o advogado
                 </Text>
               </Button>
+
+              <Button
+                justifyContent={"flex-start"}
+                backgroundColor={"transparent"}
+                leftIcon={
+                  <AntDesign
+                    name="exclamationcircleo"
+                    size={25}
+                    color="black"
+                  />
+                }
+                px={0}
+                h={70}
+                borderBottomColor={"gray.200"}
+                borderBottomWidth={1}
+                onPress={() => setModalVisible(true)}
+              >
+                <Text fontFamily="PathwayRegular" fontSize={20} ml={5}>
+                  Suporte
+                </Text>
+              </Button>
+
+              <Button
+                justifyContent={"flex-start"}
+                backgroundColor={"transparent"}
+                leftIcon={
+                  <Ionicons name="bug-outline" size={27} color="black" />
+                }
+                px={0}
+                h={70}
+                borderBottomColor={"gray.200"}
+                borderBottomWidth={1}
+                onPress={() => navigation(screens.bug)}
+              >
+                <Text fontFamily="PathwayRegular" fontSize={20} ml={5}>
+                  Relatar bugs no aplicativo
+                </Text>
+              </Button>
+
               <Button
                 justifyContent={"flex-start"}
                 backgroundColor={"transparent"}
@@ -111,6 +157,45 @@ export default function Setting() {
                 </Text>
               </Button>
             </VStack>
+          </VStack>
+
+          <VStack w={"90%"} mt={10}>
+            <Text fontFamily="PathwayBold" fontSize={16} mt={2}>
+              Termos e política do aplicativo
+            </Text>
+            <Button
+              onPress={() => console.log("teste")}
+              justifyContent={"flex-start"}
+              backgroundColor={"transparent"}
+              px={0}
+              h={"36px"}
+            >
+              <Text fontFamily="PathwayRegular" fontSize={14} underline>
+                Termos e condições de uso da plataforma
+              </Text>
+            </Button>
+            <Button
+              onPress={() => console.log("teste")}
+              justifyContent={"flex-start"}
+              backgroundColor={"transparent"}
+              px={0}
+              h={"36px"}
+            >
+              <Text fontFamily="PathwayRegular" fontSize={14} underline>
+                Política de privacidade e cookies
+              </Text>
+            </Button>
+            <Button
+              onPress={() => console.log("teste")}
+              justifyContent={"flex-start"}
+              backgroundColor={"transparent"}
+              px={0}
+              h={"36px"}
+            >
+              <Text fontFamily="PathwayRegular" fontSize={14} underline>
+                Termos da LGPD
+              </Text>
+            </Button>
           </VStack>
         </Center>
       </ScrollView>
@@ -138,7 +223,7 @@ export default function Setting() {
             </Text>
             <Button
               my={4}
-              onPress={() => redirectWhatsApp()}
+              onPress={() => redirectWhatsApp("21987578661")}
               rounded={"2xl"}
               backgroundColor={colors.disabled}
               borderWidth={1}

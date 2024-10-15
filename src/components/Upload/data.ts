@@ -5,13 +5,9 @@ export const types = [
     label: "Certidão de casamento",
     value: "Certidão de casamento",
   },
-  { label: "Comprovante de endereço", value: "Comprovante de endereço" },
   {
-    label: "Certidão de nascimento dos filhos",
-    value: "Certidão de nascimento dos filhos",
+    label: "Escritura de união estável",
+    value: "Escritura de união estável",
   },
-  {
-    label: "Documentos de outros bens a partilhar",
-    value: "Documentos de outros bens a partilhar",
-  },
+  { label: "Comprovante de residência", value: "Comprovante de residência" },
 ];

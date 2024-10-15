@@ -4,11 +4,15 @@ import { TouchableOpacity } from "react-native";
 import { redirectWhatsApp } from "../../utils/redirects";
 
 export default function CardWhatsApp() {
+
+  const number = '77999577372'
+  const numberView = '77 99957-7372'
+
   return (
     <>
       <TouchableOpacity
         style={{ marginVertical: 20 }}
-        onPress={() => redirectWhatsApp()}
+        onPress={() => redirectWhatsApp(number)}
       >
         <VStack
           justifyContent=""
@@ -33,7 +37,7 @@ export default function CardWhatsApp() {
           >
             <FontAwesome name="whatsapp" size={36} color="black" />
             <Text fontFamily="PathwayBold" fontSize={26}>
-              21 98757-8661
+              {numberView}
             </Text>
           </HStack>
         </VStack>
