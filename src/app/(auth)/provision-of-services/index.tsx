@@ -109,7 +109,7 @@ export default function Calendar() {
               </ScrollView>
             </VStack>
 
-            <VStack space={2} mt={'122px'} position={"absolute"} h={'440px'} justifyContent={'space-between'} right={2} zIndex={'100px'}>
+            <VStack space={2} mt={'130px'} position={"absolute"} h={'430px'} justifyContent={'space-between'} right={2} zIndex={'100px'}>
               <Entypo
                 name="chevron-with-circle-up"
                 size={28}
