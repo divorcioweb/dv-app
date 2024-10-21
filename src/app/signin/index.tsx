@@ -20,9 +20,9 @@ import Loading from "../../components/Loading/Loading";
 import { useGlobalContext } from "../../context/context";
 import { screens } from "../../mock/screens";
 import { Formik } from "formik";
-import useSignin from "../../hooks/useSignin";
 import { loginSchema } from "../../utils/schema";
 import { router } from "expo-router";
+import useSignin from "../../hooks/useSignin";
 
 export default function SignIn() {
   const [show, setShow] = React.useState(false);
@@ -133,7 +133,7 @@ export default function SignIn() {
                     mx="auto"
                     colorScheme={colors.yellow}
                     // onPress={() => handleSubmit()}
-                    onPress={() => navigation("provision-of-services")}
+                    onPress={() => navigation("certificate")}
                   >
                     <Text fontFamily="PathwayBold">Entrar</Text>
                   </Button>

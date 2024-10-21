@@ -1,14 +1,25 @@
-import { Box, Center, Heading, Text, VStack } from "native-base";
+import {
+  Box,
+  Center,
+  FormControl,
+  Heading,
+  HStack,
+  Radio,
+  Text,
+  VStack,
+} from "native-base";
 import { colors } from "../../../theme/colors";
-import React from "react";
-
+import React, { useState } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 import Footer from "../../../components/Footer/Footer";
 import WebView from "react-native-webview";
-import { redirectENotariado } from "../../../utils/redirects";
+import { router } from "expo-router";
 
 export default function Certificate() {
+  const [confirm, setConfirm] = useState<boolean | null>(null);
+
   return (
     <>
       <ScrollView style={{ backgroundColor: colors.background }}>
@@ -26,25 +37,16 @@ export default function Certificate() {
             mt={20}
           >
             <Heading fontFamily="PathwayBold" fontSize={32}>
-              Faça o seu {"\n"}certificado digital
+              Vídeo explicativo
             </Heading>
-            <Text fontFamily="PathwayRegular" fontSize={16} mt={2}>
-              Emita seu certificado digital notarizado gratuitamente em um
-              cartório credenciado para solicitar e assinar atos notariais,
-            </Text>
-
-            <Heading fontFamily="PathwayBold" fontSize={16} mt={5}>
-              Veja no video abaixo como é {"\n"}fácil criar o seu certificado.
-            </Heading>
-
             <Box
               w={"full"}
-              h={"200px"}
+              h={"240px"}
               backgroundColor={"white"}
               borderWidth={2}
               rounded={"2xl"}
               borderColor={"gray.300"}
-              mt={10}
+              mt={5}
             >
               <WebView
                 style={{ borderRadius: 20, border: "none" }}
@@ -54,16 +56,89 @@ export default function Certificate() {
               />
             </Box>
 
-            <Center mt={10}>
+            <Box
+              w={"full"}
+              backgroundColor={"white"}
+              rounded={"lg"}
+              mt={5}
+              paddingX={2}
+              paddingY={2}
+            >
+              <Text fontFamily={"PathwayBold"}>Assistiu todo o vídeo?</Text>
+              <Text fontFamily={"PathwayRegular"} fontSize={"xs"}>
+                Agora confirme abaixo a sua preferência
+              </Text>
+              <FormControl mt={2}>
+                <Radio.Group
+                  name="myRadioGroup"
+                  onChange={(e) => setConfirm(e === "sim" ? true : false)}
+                >
+                  <Radio value="sim" my={1} colorScheme={"black"}>
+                    <Text fontFamily={"PathwayRegular"}>
+                      Renuncio aos alimentos
+                    </Text>
+                  </Radio>
+                  <Radio value="nao" my={1} colorScheme={"black"}>
+                    <Text fontFamily={"PathwayRegular"}>
+                      Não estou de acordo
+                    </Text>
+                  </Radio>
+                </Radio.Group>
+              </FormControl>
+            </Box>
+
+            {confirm === false && (
+              <HStack
+                justifyContent="space-between"
+                alignItems="center"
+                padding="2px"
+                backgroundColor={colors.greenDark}
+                w="100%"
+                h={"20"}
+                rounded="xl"
+                mt={6}
+              >
+                <Box w="20%" alignItems={"center"}>
+                  <AntDesign
+                    name="exclamationcircleo"
+                    size={30}
+                    color="white"
+                    mx="auto"
+                  />
+                </Box>
+                <Box
+                  backgroundColor="white"
+                  w="80%"
+                  h="100%"
+                  borderTopRightRadius="10px"
+                  borderBottomRightRadius="10px"
+                  justifyContent="center"
+                  alignItems="center"
+                  paddingX={2}
+                >
+                  <Text fontFamily="PathwayRegular" fontSize={"12px"}>
+                    Nesse caso, aguarde o contato de um de nossos advogados pelo
+                    whatsapp. {"\n"}O prazo é de até 1 dia útil.
+                  </Text>
+                </Box>
+              </HStack>
+            )}
+
+            <Box
+              flexDirection={"row"}
+              alignItems={"end"}
+              justifyContent={"flex-end"}
+              mt={10}
+            >
               <TouchableOpacity
-                onPress={() => redirectENotariado()}
+                onPress={() => router.push("calendar")}
                 style={{ backgroundColor: colors.yellow, borderRadius: 20 }}
               >
                 <Text px={5} py={4} fontFamily="PathwayBold" fontSize={20}>
-                  Acessar e-notariado
+                  Continuar
                 </Text>
               </TouchableOpacity>
-            </Center>
+            </Box>
           </VStack>
         </Center>
       </ScrollView>
