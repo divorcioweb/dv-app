@@ -25,15 +25,15 @@ import { redirectWhatsApp } from "../../../utils/redirects";
 import { screens } from "../../../mock/screens";
 
 export default function Setting() {
-  const { navigation } = useGlobalContext();
+  const { navigation, logout } = useGlobalContext();
   const [modalVisible, setModalVisible] = useState<boolean>();
 
   return (
     <>
-      <ScrollView style={{ backgroundColor: colors.background }}>
+      <ScrollView style={{ backgroundColor: colors.background, flex: 1 }}>
         <Center
           w="100%"
-          h="100%"
+          paddingBottom={40}
           style={{ backgroundColor: colors.background }}
         >
           <VStack
@@ -142,6 +142,7 @@ export default function Setting() {
               </Button>
 
               <Button
+                onPress={() => logout()}
                 justifyContent={"flex-start"}
                 backgroundColor={"transparent"}
                 leftIcon={
@@ -168,7 +169,7 @@ export default function Setting() {
               justifyContent={"flex-start"}
               backgroundColor={"transparent"}
               px={0}
-              h={"36px"}
+              h={"40px"}
             >
               <Text fontFamily="PathwayRegular" fontSize={14} underline>
                 Termos e condições de uso da plataforma
@@ -179,7 +180,7 @@ export default function Setting() {
               justifyContent={"flex-start"}
               backgroundColor={"transparent"}
               px={0}
-              h={"36px"}
+              h={"40px"}
             >
               <Text fontFamily="PathwayRegular" fontSize={14} underline>
                 Política de privacidade e cookies
@@ -190,7 +191,7 @@ export default function Setting() {
               justifyContent={"flex-start"}
               backgroundColor={"transparent"}
               px={0}
-              h={"36px"}
+              h={"40px"}
             >
               <Text fontFamily="PathwayRegular" fontSize={14} underline>
                 Termos da LGPD

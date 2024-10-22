@@ -50,12 +50,11 @@ export default function SignIn() {
 
       if (validated) {
         const response = await signIn(values);
-        console.log("Resposta da API:", response);
 
         if (response) {
           navigation(screens.user, true);
           setIsAuth(true);
-          router.navigate("/home");
+          router.navigate("/user");
           resetForm();
         }
       }
@@ -132,8 +131,8 @@ export default function SignIn() {
                     rounded="2xl"
                     mx="auto"
                     colorScheme={colors.yellow}
-                    // onPress={() => handleSubmit()}
-                    onPress={() => navigation("certificate")}
+                    onPress={() => handleSubmit()}
+                    // onPress={() => navigation("certificate")}
                   >
                     <Text fontFamily="PathwayBold">Entrar</Text>
                   </Button>
