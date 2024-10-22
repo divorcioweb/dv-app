@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { colors } from "../../theme/colors";
 import {
   Box,
@@ -13,7 +13,6 @@ import {
   Checkbox,
   Image,
   Link,
-  Toast,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import Loading from "../../components/Loading/Loading";
@@ -22,46 +21,12 @@ import { screens } from "../../mock/screens";
 import { Formik } from "formik";
 import { loginSchema } from "../../utils/schema";
 import { router } from "expo-router";
-import useSignin from "../../hooks/useSignin";
+import useSign from "../../hooks/useSign";
 
 export default function SignIn() {
-  const [show, setShow] = React.useState(false);
-  const { signIn } = useSignin();
+  const [show, setShow] = useState(false);
+  const { signIn } = useSign();
   const { isLoading, setIsLoading, navigation, setIsAuth } = useGlobalContext();
-
-  const handleSubmit = async (
-    values: { email: string; senha: string },
-    resetForm: any
-  ) => {
-    try {
-      setIsLoading(true);
-
-      const validated = await loginSchema
-        .validate(values)
-        .then(() => true)
-        .catch((err) => {
-          Toast.show({
-            title: err.message,
-            backgroundColor: "red.500",
-            rounded: 12,
-          });
-          return false;
-        });
-
-      if (validated) {
-        const response = await signIn(values);
-
-        if (response) {
-          navigation(screens.user, true);
-          setIsAuth(true);
-          router.navigate("/user");
-          resetForm();
-        }
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <>
@@ -80,11 +45,32 @@ export default function SignIn() {
           <VStack space={3} mt="5">
             <Formik
               initialValues={{ email: "", senha: "" }}
-              onSubmit={(values, { resetForm }) =>
-                handleSubmit(values, resetForm)
-              }
+              validationSchema={loginSchema}
+              onSubmit={async (values, { resetForm }) => {
+                try {
+                  setIsLoading(true);
+
+                  const response = await signIn(values);
+
+                  if (response) {
+                    navigation(screens.user, true);
+                    setIsAuth(true);
+                    router.navigate("/user");
+                    resetForm();
+                  }
+                } finally {
+                  setIsLoading(false);
+                }
+              }}
             >
-              {({ handleChange, handleSubmit, values }) => (
+              {({
+                handleChange,
+                handleSubmit,
+                values,
+                errors,
+                touched,
+                handleBlur,
+              }) => (
                 <>
                   <FormControl>
                     <FormControl.Label>Email</FormControl.Label>
@@ -93,13 +79,18 @@ export default function SignIn() {
                       backgroundColor="#fff"
                       value={values.email}
                       onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
                     />
+                    {errors.email && touched.email && (
+                      <Text color="red.500">{errors.email}</Text>
+                    )}
                   </FormControl>
                   <FormControl>
-                    <FormControl.Label>Password</FormControl.Label>
+                    <FormControl.Label>Senha</FormControl.Label>
                     <Input
                       value={values.senha}
                       onChangeText={handleChange("senha")}
+                      onBlur={handleBlur("senha")}
                       backgroundColor="#fff"
                       h={52}
                       type={show ? "text" : "password"}
@@ -118,6 +109,9 @@ export default function SignIn() {
                         </Pressable>
                       }
                     />
+                    {errors.senha && touched.senha && (
+                      <Text color="red.500">{errors.senha}</Text>
+                    )}
                   </FormControl>
                   <Checkbox value="true" color="info.600" mt={2}>
                     <Text fontFamily="PathwayRegular">
@@ -132,7 +126,6 @@ export default function SignIn() {
                     mx="auto"
                     colorScheme={colors.yellow}
                     onPress={() => handleSubmit()}
-                    // onPress={() => navigation("certificate")}
                   >
                     <Text fontFamily="PathwayBold">Entrar</Text>
                   </Button>

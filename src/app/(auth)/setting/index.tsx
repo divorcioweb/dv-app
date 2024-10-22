@@ -34,10 +34,10 @@ export default function Setting() {
         <Center
           w="100%"
           paddingBottom={40}
+          flex={1}
           style={{ backgroundColor: colors.background }}
         >
           <VStack
-            // backgroundColor={colors.background}
             w="full"
             maxW={350}
             mt={5}
