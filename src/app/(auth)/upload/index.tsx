@@ -21,6 +21,7 @@ import Footer from "../../../components/Footer/Footer";
 import * as DocumentPicker from "expo-document-picker";
 import { bodyFile } from "../../../utils/bodyFile";
 import UploadFile from "../../../components/Upload/Upload";
+import useDocs from "../../../hooks/useDocs";
 
 export default function Upload() {
   const [IAgree, setIAgree] = React.useState(false);
@@ -28,6 +29,7 @@ export default function Upload() {
   const [selectedFile, setSelectedFile] = React.useState<any>([]);
   const regex = /\(\d+\)/;
   const { navigation } = useGlobalContext();
+  const { uploadDocs } = useDocs();
 
   const pickDocument = async (value: any) => {
     try {
@@ -52,10 +54,12 @@ export default function Upload() {
     } catch (err) {
       setIsVisibleModal(false);
     }
+
+    console.log(selectedFile)
   };
 
-  const handleSaveAndNext = () => {
-    if (selectedFile.length < 5) {
+  const handleSaveAndNext = async () => {
+    if (selectedFile.length < 1) {
       Alert.alert("Adicione todos os documentos necessários, por favor.", "", [
         {
           text: "Ok",
@@ -63,7 +67,7 @@ export default function Upload() {
         },
       ]);
     } else {
-      // saveDocuments(selectedFile);
+      await uploadDocs(selectedFile);
     }
   };
 
@@ -247,7 +251,7 @@ export default function Upload() {
                   NOME
                 </Text>
               </HStack>
-              <VStack minH={"25"} maxH={"25"} backgroundColor={"white"}>
+              <VStack minH={"25"}  backgroundColor={"white"}>
                 <FlatList
                   data={selectedFile}
                   renderItem={CardUp}
