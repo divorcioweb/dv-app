@@ -24,9 +24,13 @@ import { countrys } from "../../../mock/countrys";
 import { Formik } from "formik";
 import { userSchemaUpdate } from "../../../utils/schema";
 import Footer from "../../../components/Footer/Footer";
+import useSign from "../../../hooks/useSign";
+import { User } from "../../../utils/user";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function User() {
+export default function UserS() {
   const { navigation } = useGlobalContext();
+  const { register } = useSign();
 
   const [pais, setPais] = useState("");
   const [naturalidade, setNaturalidade] = useState("");
@@ -52,7 +56,7 @@ export default function User() {
     },
   };
 
-  const onSubmit = (values: any) => {
+  const onSubmit = async (values: any) => {
     const body = {
       ...values,
       endereco: {
@@ -62,10 +66,9 @@ export default function User() {
       nome_solteiro,
       naturalidade,
       estado_civil,
+      nao_possui_filhos_menores,
     };
-    console.log(body);
-    // Adicione a lógica de navegação ou de salvamento aqui
-    // navigation(screens.upload, true);
+    await register(body);
   };
 
   return (

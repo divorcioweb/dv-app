@@ -15,12 +15,13 @@ import {
   Link,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import Loading from "../../components/Loading/Loading";
 import { useGlobalContext } from "../../context/context";
 import { screens } from "../../mock/screens";
 import { Formik } from "formik";
 import { loginSchema } from "../../utils/schema";
-import { router } from "expo-router";
+import { validationRedirect } from "../../utils/validationRedirect";
+
+import Loading from "../../components/Loading/Loading";
 import useSign from "../../hooks/useSign";
 
 export default function SignIn() {
@@ -53,9 +54,8 @@ export default function SignIn() {
                   const response = await signIn(values);
 
                   if (response) {
-                    navigation(screens.user, true);
+                    navigation(validationRedirect(response.status), true);
                     setIsAuth(true);
-                    router.navigate("/user");
                     resetForm();
                   }
                 } finally {

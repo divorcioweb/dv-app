@@ -1,4 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 import { Toast } from "native-base";
+import { User } from "../utils/user";
 
 export default function useSign() {
   const api = process.env.EXPO_PUBLIC_API_URL as string;
@@ -21,6 +24,9 @@ export default function useSign() {
       }
 
       const data = await response.json();
+      const { token } = data;
+      AsyncStorage.setItem("token", token);
+      User.setUser(data);
       return data;
     } catch (error) {
       console.error("Error during sign in:", error);
@@ -28,22 +34,17 @@ export default function useSign() {
     }
   };
 
-  const register = async ({
-    email,
-    senha,
-    telefone,
-  }: {
-    email: string;
-    senha: string;
-    telefone: string;
-  }) => {
+  const register = async (body: any) => {
+    const token = await AsyncStorage.getItem("token");
+
     try {
-      const response = await fetch(api + "/users/register", {
-        method: "POST",
+      const response = await fetch(api + "/users/update", {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ email, senha, telefone }),
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
@@ -52,13 +53,13 @@ export default function useSign() {
         });
         return;
       } else {
+        const data = await response.json();
         Toast.show({
-          title: "Usuário cadastrado com sucesso!",
+          title: data.message,
         });
+        router.push("/upload");
+        return data;
       }
-
-      const data = await response.json();
-      return data;
     } catch (error) {
       console.error("Error during sign in:", error);
       return null;
