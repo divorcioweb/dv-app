@@ -9,38 +9,36 @@ import {
   HStack,
   Checkbox,
 } from "native-base";
-import { Alert, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import Footer from "../../../components/Footer/Footer";
 import { useGlobalContext } from "../../../context/context";
 import { colors } from "../../../theme/colors";
 import { screens } from "../../../mock/screens";
-import Footer from "../../../components/Footer/Footer";
-import useEvents from "../../../hooks/useEvents";
 
-export default function ProvisionOfServices() {
-  const { navigation, setIsLoading, isLoading } = useGlobalContext();
+export default function Minuta() {
+  const { navigation } = useGlobalContext();
   const scrollViewRef = useRef<any>(null);
-  const [confirm, setConfirm] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const scrollAmount = 100;
+  const [scrollPosition, setScrollPosition] = useState(0); // Rastreia a posição atual da rolagem
+  const scrollAmount = 100; // Quantidade de rolagem por clique
 
+  // Função para rolar para baixo
   const scrollDown = () => {
     if (scrollViewRef.current) {
       const newPosition = scrollPosition + scrollAmount;
       scrollViewRef.current.scrollTo({ y: newPosition, animated: true });
-      setScrollPosition(newPosition);
+      setScrollPosition(newPosition); // Atualiza a posição de rolagem
     }
   };
 
+  // Função para rolar para cima
   const scrollUp = () => {
     if (scrollViewRef.current) {
-      const newPosition = Math.max(0, scrollPosition - scrollAmount);
+      const newPosition = Math.max(0, scrollPosition - scrollAmount); // Impede de rolar acima do topo
       scrollViewRef.current.scrollTo({ y: newPosition, animated: true });
-      setScrollPosition(newPosition);
+      setScrollPosition(newPosition); // Atualiza a posição de rolagem
     }
   };
-
-  const { saveEvent } = useEvents();
 
   return (
     <>
@@ -111,15 +109,7 @@ export default function ProvisionOfServices() {
               </ScrollView>
             </VStack>
 
-            <VStack
-              space={2}
-              mt={"130px"}
-              position={"absolute"}
-              h={"430px"}
-              justifyContent={"space-between"}
-              right={2}
-              zIndex={"100px"}
-            >
+            <VStack space={2} mt={'130px'} position={"absolute"} h={'430px'} justifyContent={'space-between'} right={2} zIndex={'100px'}>
               <Entypo
                 name="chevron-with-circle-up"
                 size={28}
@@ -134,12 +124,7 @@ export default function ProvisionOfServices() {
               />
             </VStack>
 
-            <Checkbox
-              value="true"
-              color="info.600"
-              mt={2}
-              onChange={(value) => setConfirm(value)}
-            >
+            <Checkbox value="true" color="info.600" mt={2}>
               <Text fontFamily="PathwayRegular" fontSize={16}>
                 Confirmo que li e estou de acordo {"\n"}com o contrato
               </Text>
@@ -147,11 +132,7 @@ export default function ProvisionOfServices() {
 
             <HStack mb={10} mt={4} justifyContent={"space-between"}>
               <Button
-                onPress={() => {
-                  Alert.alert(
-                    "Para seguir você precisa ler e aceitar o contrato de serviço"
-                  );
-                }}
+                onPress={() => navigation(screens.upload)}
                 backgroundColor={"white"}
                 h={52}
                 px={"8"}
@@ -162,25 +143,7 @@ export default function ProvisionOfServices() {
                 <AntDesign name="close" size={24} color="black" />
               </Button>
               <Button
-                onPress={async () => {
-                  if (confirm) {
-                    try {
-                      setIsLoading(true);
-                      await saveEvent({
-                        data: new Date().toISOString(),
-                        titulo: "Contrato de serviço aceito",
-                        status: "Aguardando confirmação de pagamento",
-                      });
-                      navigation(screens.upload);
-                    } finally {
-                      setIsLoading(false);
-                    }
-                  } else {
-                    Alert.alert(
-                      "Para seguir você precisa ler e aceitar o contrato de serviço"
-                    );
-                  }
-                }}
+                onPress={() => navigation(screens.upload)}
                 backgroundColor={colors.yellow}
                 h={52}
                 px={"8"}

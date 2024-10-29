@@ -16,18 +16,20 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useGlobalContext } from "../context/context";
 import { screens } from "../mock/screens";
+import Loading from "../components/Loading/Loading";
 
 export default function Primary() {
-  const { navigation } = useGlobalContext();
+  const { navigation, isLoading } = useGlobalContext();
 
   return (
     <>
+      {isLoading && <Loading />}
       <Box
         justifyContent="start"
         alignItems="center"
         style={{ backgroundColor: colors.background }}
       >
-        <ScrollView w={"full"} h={'full'}>
+        <ScrollView w={"full"} h={"full"}>
           <Center>
             <VStack p="2" py="10" w="100%" maxW="360">
               <Center>

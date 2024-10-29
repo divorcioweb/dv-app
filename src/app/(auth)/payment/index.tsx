@@ -23,14 +23,12 @@ import {
   StripeProvider,
 } from "@stripe/stripe-react-native";
 import usePayment from "../../../hooks/usePayment";
-import { User } from "../../../utils/user";
+import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 
 export default function PaymentScreen() {
   const { intentPayment } = usePayment();
-  const { navigation } = useGlobalContext();
-  const user = User.getUser();
+  const { isLoading, setIsLoading } = useGlobalContext();
 
-  const [service, setService] = React.useState("");
   const [selectedValue, setSelectedValue] = React.useState(2);
 
   const percentages = [10, 50, 100];
@@ -167,27 +165,28 @@ export default function PaymentScreen() {
               <Box alignItems="flex-end" w="100%" mt={10}>
                 <Button
                   onPress={async () => {
-                    const { paymentIntent: intentKey } = await intentPayment(
-                      percentages[selectedValue]
-                    );
-
-                    console.log(intentKey);
-
-                    const { paymentIntent, error } = await confirmPayment(
-                      intentKey,
-                      {
-                        paymentMethodType: "Card",
-                      }
-                    );
-                    console.log(paymentIntent);
-
-                    if (paymentIntent) {
-                      Alert.alert("Pagamento confirmado!");
-                    }
-                    if (error) {
-                      Alert.alert(
-                        "Verifique as informações e tente novamente!"
+                    try {
+                      setIsLoading(true);
+                      const { paymentIntent: intentKey } = await intentPayment(
+                        percentages[selectedValue]
                       );
+
+                      const { paymentIntent, error } = await confirmPayment(
+                        intentKey,
+                        {
+                          paymentMethodType: "Card",
+                        }
+                      );
+                      if (paymentIntent) {
+                        Alert.alert("Pagamento confirmado!");
+                      }
+                      if (error) {
+                        Alert.alert(
+                          "Verifique as informações e tente novamente!"
+                        );
+                      }
+                    } finally {
+                      setIsLoading(false);
                     }
                   }}
                   backgroundColor={colors.yellow}
@@ -214,6 +213,7 @@ export default function PaymentScreen() {
         </StripeProvider>
       </ScrollView>
       <Footer />
+      {isLoading && <LoadingTransparent />}
     </>
   );
 }

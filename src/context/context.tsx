@@ -4,6 +4,8 @@ import { User } from "../utils/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { screens } from "../mock/screens";
+import useSign from "../hooks/useSign";
+import { validationRedirect } from "../utils/validationRedirect";
 
 interface IContext {
   isAuth: boolean;
@@ -27,6 +29,8 @@ export const ContextProvider = ({
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selected, setSelected] = React.useState("setting");
 
+  const { signIn } = useSign();
+
   const navigation = (path: string, alterFooter?: boolean) => {
     router.navigate("/" + path);
     if (alterFooter) {
@@ -35,8 +39,25 @@ export const ContextProvider = ({
   };
 
   useEffect(() => {
-    setIsAuth(true);
-    navigation(screens.payment, true);
+    const get = async () => {
+      const email = await AsyncStorage.getItem("email");
+      const senha = await AsyncStorage.getItem("senha");
+
+      if (email && senha) {
+        try {
+          setIsLoading(true);
+          const user = await signIn({ email, senha });
+          console.log('===========================', user);
+          if (user) {
+            navigation(validationRedirect(user.status), true);
+            setIsAuth(true);
+          }
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    get();
   }, []);
 
   const logout = async () => {

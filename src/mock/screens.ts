@@ -13,4 +13,5 @@ export const screens = {
   certificate: "certificate",
   payment: "payment",
   bug: "bug",
+  provision: "provision-of-services",
 };

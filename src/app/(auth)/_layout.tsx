@@ -50,6 +50,10 @@ export default function Layout() {
             name="provision-of-services"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="minuta"
+            options={{ headerShown: false }}
+          />
         </Stack>
       )}
     </>

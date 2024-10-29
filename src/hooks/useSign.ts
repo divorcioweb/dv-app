@@ -26,6 +26,8 @@ export default function useSign() {
       const data = await response.json();
       const { token } = data;
       AsyncStorage.setItem("token", token);
+      AsyncStorage.setItem("email", email);
+      AsyncStorage.setItem("senha", senha);
       User.setUser(data);
       return data;
     } catch (error) {
