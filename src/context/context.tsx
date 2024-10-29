@@ -1,8 +1,9 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { User } from "../utils/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { screens } from "../mock/screens";
 
 interface IContext {
   isAuth: boolean;
@@ -32,6 +33,11 @@ export const ContextProvider = ({
       setSelected(path);
     }
   };
+
+  useEffect(() => {
+    setIsAuth(true);
+    navigation(screens.payment, true);
+  }, []);
 
   const logout = async () => {
     Alert.alert(
