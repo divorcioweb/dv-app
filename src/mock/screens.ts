@@ -12,6 +12,7 @@ export const screens = {
   calendar: "calendar",
   certificate: "certificate",
   payment: "payment",
+  paymentConjuge: "payment-conjuge",
   bug: "bug",
   provision: "provision-of-services",
 };

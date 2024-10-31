@@ -19,12 +19,12 @@ export default function useDocs() {
         Toast.show({
           title: "Não foi possivel fazer upload dos seus documentos",
         });
-        return;
+        return false;
       }
       Toast.show({
         title: "Documentos enviados com sucesso!",
       });
-      console.log("TUDO CERTO", await response.json());
+      return true
     } catch (error) {
       console.error("Error during sign in:", error);
       return null;

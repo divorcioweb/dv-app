@@ -40,7 +40,7 @@ export default function ProvisionOfServices() {
     }
   };
 
-  const { saveEvent } = useEvents();
+  const { acceptContractEvent } = useEvents();
 
   return (
     <>
@@ -166,12 +166,22 @@ export default function ProvisionOfServices() {
                   if (confirm) {
                     try {
                       setIsLoading(true);
-                      await saveEvent({
+                      const response = await acceptContractEvent({
                         data: new Date().toISOString(),
                         titulo: "Contrato de serviço aceito",
                         status: "Aguardando confirmação de pagamento",
                       });
-                      navigation(screens.upload);
+                      if (
+                        response.status === "Aguardando envio de documentos"
+                      ) {
+                        navigation(screens.upload, true);
+                      } else {
+                        if (response.type === 1) {
+                          navigation(screens.payment, true);
+                        } else {
+                          navigation(screens.paymentConjuge, true);
+                        }
+                      }
                     } finally {
                       setIsLoading(false);
                     }

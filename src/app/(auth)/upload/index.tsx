@@ -22,6 +22,7 @@ import * as DocumentPicker from "expo-document-picker";
 import { bodyFile } from "../../../utils/bodyFile";
 import UploadFile from "../../../components/Upload/Upload";
 import useDocs from "../../../hooks/useDocs";
+import { router } from "expo-router";
 
 export default function Upload() {
   const [IAgree, setIAgree] = React.useState(false);
@@ -55,11 +56,10 @@ export default function Upload() {
       setIsVisibleModal(false);
     }
 
-    console.log(selectedFile)
   };
 
   const handleSaveAndNext = async () => {
-    if (selectedFile.length < 1) {
+    if (selectedFile.length < 3) {
       Alert.alert("Adicione todos os documentos necessários, por favor.", "", [
         {
           text: "Ok",
@@ -67,7 +67,10 @@ export default function Upload() {
         },
       ]);
     } else {
-      await uploadDocs(selectedFile);
+      const result = await uploadDocs(selectedFile);
+      if(result) {
+        router.push('/certificate')
+      }
     }
   };
 
