@@ -55,7 +55,6 @@ export default function Upload() {
     } catch (err) {
       setIsVisibleModal(false);
     }
-
   };
 
   const handleSaveAndNext = async () => {
@@ -68,8 +67,8 @@ export default function Upload() {
       ]);
     } else {
       const result = await uploadDocs(selectedFile);
-      if(result) {
-        router.push('/certificate')
+      if (result) {
+        router.push("/certificate");
       }
     }
   };
@@ -254,7 +253,7 @@ export default function Upload() {
                   NOME
                 </Text>
               </HStack>
-              <VStack minH={"25"}  backgroundColor={"white"}>
+              <VStack minH={"25"} backgroundColor={"white"}>
                 <FlatList
                   data={selectedFile}
                   renderItem={CardUp}

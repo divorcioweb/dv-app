@@ -12,24 +12,22 @@ import {
   Select,
   Text,
   VStack,
+  View,
 } from "native-base";
 import { colors } from "../../../theme/colors";
 import React, { useState } from "react";
 import { nationalitiesList } from "../../../mock/naturalidades";
 import { marital } from "../../../mock/marital";
-import { ScrollView } from "react-native";
-import { useGlobalContext } from "../../../context/context";
+import { Platform, ScrollView, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { countrys } from "../../../mock/countrys";
 import { Formik } from "formik";
 import { userSchemaUpdate } from "../../../utils/schema";
 import Footer from "../../../components/Footer/Footer";
 import useSign from "../../../hooks/useSign";
-import { User } from "../../../utils/user";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import RNPickerSelect from "react-native-picker-select";
 
 export default function UserS() {
-  const { navigation } = useGlobalContext();
   const { register } = useSign();
 
   const [pais, setPais] = useState("");
@@ -70,6 +68,8 @@ export default function UserS() {
     };
     await register(body);
   };
+
+  console.log(estado_civil);
 
   return (
     <>
@@ -165,52 +165,40 @@ export default function UserS() {
 
                     <FormControl>
                       <FormControl.Label>Naturalidade</FormControl.Label>
-                      <Select
-                        h={52}
-                        selectedValue={naturalidade}
-                        minWidth="200"
-                        _selectedItem={{
-                          bg: colors.greenDarkOpacity,
-                          endIcon: <CheckIcon size="4" />,
+                      <RNPickerSelect
+                        placeholder={{
+                          label: "",
+                          value: "",
                         }}
-                        backgroundColor={"white"}
-                        onValueChange={(itemValue) =>
-                          setNaturalidade(itemValue)
-                        }
-                      >
-                        {nationalitiesList.map((item) => (
-                          <Select.Item
-                            shadow={2}
-                            label={item.label}
-                            value={item.value}
-                          />
-                        ))}
-                      </Select>
+                        style={{
+                          inputAndroid: styles.select,
+                          inputIOS: styles.select,
+                        }}
+                        onValueChange={(value) => {
+                          setNaturalidade(value);
+                        }}
+                        value={naturalidade}
+                        items={nationalitiesList}
+                      />
                     </FormControl>
 
                     <FormControl>
                       <FormControl.Label>Estado civil</FormControl.Label>
-                      <Select
-                        h={52}
-                        selectedValue={estado_civil}
-                        minWidth="200"
-                        _selectedItem={{
-                          bg: colors.greenDarkOpacity,
-                          endIcon: <CheckIcon size="4" />,
+                      <RNPickerSelect
+                        placeholder={{
+                          label: "",
+                          value: "",
                         }}
-                        backgroundColor={"white"}
-                        onValueChange={(itemValue) =>
-                          setEstado_civil(itemValue)
-                        }
-                      >
-                        {marital.map((item) => (
-                          <Select.Item
-                            shadow={2}
-                            label={item.label}
-                            value={item.value}
-                          />
-                        ))}
-                      </Select>
+                        style={{
+                          inputAndroid: styles.select,
+                          inputIOS: styles.select,
+                        }}
+                        onValueChange={(value) => {
+                          setEstado_civil(value);
+                        }}
+                        value={estado_civil}
+                        items={marital}
+                      />
                     </FormControl>
 
                     <FormControl>
@@ -321,9 +309,21 @@ export default function UserS() {
                     </HStack>
 
                     <HStack w={"100%"} justifyContent={"space-between"}>
-                      <FormControl w={"48%"}>
+                      <FormControl w={"48%"} zIndex={100}>
                         <FormControl.Label>Pais</FormControl.Label>
-                        <Select
+                        <RNPickerSelect
+                          placeholder={{}}
+                          style={{
+                            inputAndroid: styles.selectPais,
+                            inputIOS: styles.selectPais,
+                          }}
+                          onValueChange={(value) => {
+                            setPais(value);
+                          }}
+                          value={pais}
+                          items={countrys}
+                        />
+                        {/* <Select
                           h={52}
                           selectedValue={pais}
                           _selectedItem={{
@@ -340,7 +340,7 @@ export default function UserS() {
                               value={item.value}
                             />
                           ))}
-                        </Select>
+                        </Select> */}
                       </FormControl>
                       <FormControl w={"48%"}>
                         <FormControl.Label>CEP</FormControl.Label>
@@ -432,3 +432,36 @@ export default function UserS() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  select: {
+    width: "100%",
+    paddingLeft: 10,
+    paddingRight: Platform.OS === "ios" ? 14 : 0,
+    height: 48,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "white",
+    marginBottom: 3,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#d8d8d8",
+  },
+  selectPais: {
+    width: "100%",
+    paddingLeft: 10,
+    paddingRight: Platform.OS === "ios" ? 14 : 0,
+    height: 52,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "white",
+    marginBottom: 3,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#d8d8d8",
+  },
+});

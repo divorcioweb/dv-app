@@ -1,6 +1,10 @@
-export const validationRedirect = (status: string) => {
+export const validationRedirect = (status: string, type?: number) => {
   if (status === statusUser[1]) {
-    return "user";
+    if (type === 1) {
+      return "user";
+    } else {
+      return "conjuge";
+    }
   } else if (status === statusUser[2]) {
     return "provision-of-services";
   } else if (status === statusUser[3]) {

@@ -54,7 +54,7 @@ export default function SignIn() {
                   const response = await signIn(values);
 
                   if (response) {
-                    navigation(validationRedirect(response.status), true);
+                    navigation(validationRedirect(response.status, response.type), true);
                     setIsAuth(true);
                     resetForm();
                   }

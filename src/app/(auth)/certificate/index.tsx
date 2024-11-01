@@ -10,15 +10,20 @@ import {
 } from "native-base";
 import { colors } from "../../../theme/colors";
 import React, { useState } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { Alert, ScrollView, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import Footer from "../../../components/Footer/Footer";
 import WebView from "react-native-webview";
 import { router } from "expo-router";
+import useEvents from "../../../hooks/useEvents";
+import { useGlobalContext } from "../../../context/context";
 
 export default function Certificate() {
   const [confirm, setConfirm] = useState<boolean | null>(null);
+
+  const { saveEvent } = useEvents();
+  const { setIsLoading } = useGlobalContext();
 
   return (
     <>
@@ -131,7 +136,24 @@ export default function Certificate() {
               mt={10}
             >
               <TouchableOpacity
-                onPress={() => router.push("calendar")}
+                onPress={async () => {
+                  if (confirm) {
+                    try {
+                      setIsLoading(true);
+                      await saveEvent({
+                        data: new Date().toISOString(),
+                        status: "Acompanhamento de eventos",
+                        titulo: "Aceito de renúncia aos alimentos",
+                      });
+                    } finally {
+                      setIsLoading(false);
+                    }
+                  } else {
+                    Alert.alert(
+                      "Para seguir com o processo de divórcio voce deve marcar está de acordo!"
+                    );
+                  }
+                }}
                 style={{ backgroundColor: colors.yellow, borderRadius: 20 }}
               >
                 <Text px={5} py={4} fontFamily="PathwayBold" fontSize={20}>
