@@ -24,7 +24,7 @@ export default function SignUp() {
   const [show, setShow] = React.useState(false);
   const { setIsLoading } = useGlobalContext();
 
-  const { register } = useSign();
+  const { registerInit } = useSign();
 
   return (
     <>
@@ -47,7 +47,7 @@ export default function SignUp() {
                 try {
                   setIsLoading(true);
 
-                  const response = await register(values);
+                  const response = await registerInit(values);
 
                   if (response) {
                     router.navigate("/signin");

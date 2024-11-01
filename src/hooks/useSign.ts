@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import { Toast } from "native-base";
 import { User } from "../utils/user";
+import Toast from "react-native-toast-message";
 
 export default function useSign() {
   const api = process.env.EXPO_PUBLIC_API_URL as string;
@@ -18,7 +18,7 @@ export default function useSign() {
 
       if (!response.ok) {
         Toast.show({
-          title: "Credenciais inválidas",
+          text1: "Credenciais inválidas!",
         });
         return;
       }
@@ -51,15 +51,15 @@ export default function useSign() {
 
       if (!response.ok) {
         Toast.show({
-          title: "Não foi possivel fazer o cadastro do usuário!",
+          text1: "Não foi possivel salvar informações do usuário!",
         });
         return;
       } else {
         const data = await response.json();
         Toast.show({
-          title: data.message,
+          text1: "Informações salva com sucesso!",
+          type: "success",
         });
-        router.push("/upload");
         return data;
       }
     } catch (error) {
@@ -68,5 +68,33 @@ export default function useSign() {
     }
   };
 
-  return { signIn, register };
+  const registerInit = async (body: any) => {
+    try {
+      const response = await fetch(api + "/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        Toast.show({
+          text1: "Não foi possivel fazer o cadastro do usuário!",
+        });
+        return;
+      } else {
+        const data = await response.json();
+        Toast.show({
+          text1: data.message,
+        });
+        return data;
+      }
+    } catch (error) {
+      console.error("Error during sign in:", error);
+      return null;
+    }
+  };
+
+  return { signIn, register, registerInit };
 }

@@ -23,6 +23,7 @@ import { validationRedirect } from "../../utils/validationRedirect";
 
 import Loading from "../../components/Loading/Loading";
 import useSign from "../../hooks/useSign";
+import Toast from "react-native-toast-message";
 
 export default function SignIn() {
   const [show, setShow] = useState(false);
@@ -54,8 +55,14 @@ export default function SignIn() {
                   const response = await signIn(values);
 
                   if (response) {
-                    navigation(validationRedirect(response.status, response.type), true);
+                    navigation(
+                      validationRedirect(response.status, response.type),
+                      true
+                    );
                     setIsAuth(true);
+                    Toast.show({
+                      text1: "Login feito com sucesso!",
+                    });
                     resetForm();
                   }
                 } finally {

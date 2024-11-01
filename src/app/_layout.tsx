@@ -49,6 +49,7 @@ export default function Layout() {
               }}
             />
           </Stack>
+          <Toast />
         </NativeBaseProvider>
       </ContextProvider>
     </>

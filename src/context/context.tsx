@@ -47,9 +47,8 @@ export const ContextProvider = ({
         try {
           setIsLoading(true);
           const user = await signIn({ email, senha });
-          console.log('===========================', user);
           if (user) {
-            navigation(validationRedirect(user.status), true);
+            navigation(validationRedirect(user.status, user.type), true);
             setIsAuth(true);
           }
         } finally {

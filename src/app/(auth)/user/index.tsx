@@ -15,7 +15,7 @@ import {
   View,
 } from "native-base";
 import { colors } from "../../../theme/colors";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { nationalitiesList } from "../../../mock/naturalidades";
 import { marital } from "../../../mock/marital";
 import { Platform, ScrollView, StyleSheet } from "react-native";
@@ -26,9 +26,15 @@ import { userSchemaUpdate } from "../../../utils/schema";
 import Footer from "../../../components/Footer/Footer";
 import useSign from "../../../hooks/useSign";
 import RNPickerSelect from "react-native-picker-select";
+import { useGlobalContext } from "../../../context/context";
+import { validationRedirect } from "../../../utils/validationRedirect";
+import useEvents from "../../../hooks/useEvents";
+import Toast from "react-native-toast-message";
 
 export default function UserS() {
   const { register } = useSign();
+  const { saveEvent } = useEvents();
+  const { navigation, setIsLoading } = useGlobalContext();
 
   const [pais, setPais] = useState("");
   const [naturalidade, setNaturalidade] = useState("");
@@ -54,22 +60,38 @@ export default function UserS() {
     },
   };
 
-  const onSubmit = async (values: any) => {
-    const body = {
-      ...values,
-      endereco: {
-        ...values.endereco,
-        pais,
-      },
-      nome_solteiro,
-      naturalidade,
-      estado_civil,
-      nao_possui_filhos_menores,
-    };
-    await register(body);
-  };
 
-  console.log(estado_civil);
+  const onSubmit = async (values: any) => {
+    try {
+      setIsLoading(true);
+      const body = {
+        ...values,
+        endereco: {
+          ...values.endereco,
+          pais,
+        },
+        nome_solteiro,
+        naturalidade,
+        estado_civil,
+        nao_possui_filhos_menores,
+      };
+      const response = await register(body);
+
+      if (response) {
+        Toast.show({
+          text1: "Login feito com sucesso!",
+        });
+        navigation(validationRedirect(response.status, response.type), true);
+        await saveEvent({
+          data: new Date().toISOString(),
+          status: "Aguardando aceite do contrato de serviços",
+          titulo: "Cadastro completo",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
