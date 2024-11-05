@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
 import { User } from "../utils/user";
 import Toast from "react-native-toast-message";
 

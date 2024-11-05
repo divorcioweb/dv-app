@@ -14,9 +14,6 @@ export default function usePayment() {
         body: JSON.stringify({ porcentagem }),
       });
 
-      console.log("==", await AsyncStorage.getItem("token"));
-      console.log({ porcentagem });
-
       const data = await response.json();
       return data;
     } catch (error) {

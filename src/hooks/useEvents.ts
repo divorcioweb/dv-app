@@ -64,10 +64,6 @@ export default function useEvents() {
           type: "error",
         });
       } else {
-        Toast.show({
-          text1: "Não foi possivel processar, tente novamente!",
-          type: "success",
-        });
         return await response.json();
       }
     } catch (error) {

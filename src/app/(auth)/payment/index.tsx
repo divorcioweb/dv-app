@@ -24,6 +24,8 @@ import {
 } from "@stripe/stripe-react-native";
 import usePayment from "../../../hooks/usePayment";
 import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
+import { router } from "expo-router";
+import Toast from "react-native-toast-message";
 
 export default function PaymentScreen() {
   const { intentPayment } = usePayment();
@@ -178,7 +180,10 @@ export default function PaymentScreen() {
                         }
                       );
                       if (paymentIntent) {
-                        Alert.alert("Pagamento confirmado!");
+                        Toast.show({
+                          text1: "Pagamento confirmado!",
+                        });
+                        router.push("/upload");
                       }
                       if (error) {
                         Alert.alert(

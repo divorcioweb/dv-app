@@ -60,7 +60,6 @@ export default function UserS() {
     },
   };
 
-
   const onSubmit = async (values: any) => {
     try {
       setIsLoading(true);
@@ -78,10 +77,13 @@ export default function UserS() {
       const response = await register(body);
 
       if (response) {
-        Toast.show({
-          text1: "Login feito com sucesso!",
-        });
-        navigation(validationRedirect(response.status, response.type), true);
+        navigation(
+          validationRedirect(
+            "Aguardando aceite do contrato de serviços",
+            response.type
+          ),
+          true
+        );
         await saveEvent({
           data: new Date().toISOString(),
           status: "Aguardando aceite do contrato de serviços",

@@ -15,7 +15,6 @@ import React from "react";
 import { Alert, ScrollView } from "react-native";
 import { AntDesign, MaterialIcons, Feather } from "@expo/vector-icons";
 
-import { useGlobalContext } from "../../../context/context";
 import CardWhatsApp from "../../../components/CardWhatsApp/CardWhatsApp";
 import Footer from "../../../components/Footer/Footer";
 import * as DocumentPicker from "expo-document-picker";
@@ -23,32 +22,36 @@ import { bodyFile } from "../../../utils/bodyFile";
 import UploadFile from "../../../components/Upload/Upload";
 import useDocs from "../../../hooks/useDocs";
 import { router } from "expo-router";
+import { useGlobalContext } from "../../../context/context";
 
 export default function Upload() {
   const [IAgree, setIAgree] = React.useState(false);
   const [isVisibleModal, setIsVisibleModal] = React.useState(false);
   const [selectedFile, setSelectedFile] = React.useState<any>([]);
   const regex = /\(\d+\)/;
-  const { navigation } = useGlobalContext();
+
   const { uploadDocs } = useDocs();
+  const { setIsLoading } = useGlobalContext();
 
   const pickDocument = async (value: any) => {
     try {
       const result: any = await DocumentPicker.getDocumentAsync();
       if (result.type !== "cancel") {
-        const existType = selectedFile.find((file: any) => file.name === value);
-        if (!existType) {
+        const existType = selectedFile.filter(
+          (file: any) => file.name.split(' ')[0] === value
+        );
+        if (existType.length === 0) {
           const filtered = selectedFile.filter(
-            (file: any) => file.nome.replace(regex, "").trim() === value
+            (file: any) => file.name.replace(regex, "").trim() === value
           );
           if (filtered[0] === undefined) {
             const body = await bodyFile(value, result.assets[0]);
             setSelectedFile([...selectedFile, body]);
-          } else {
-            value = value + ` (${filtered.length})`;
-            const body = await bodyFile(value, result.assets[0]);
-            setSelectedFile([...selectedFile, body]);
           }
+        } else {
+          value = value + `.${existType.length}`;
+          const body = await bodyFile(value, result.assets[0]);
+          setSelectedFile([...selectedFile, body]);
         }
       }
       setIsVisibleModal(false);
@@ -56,7 +59,6 @@ export default function Upload() {
       setIsVisibleModal(false);
     }
   };
-
   const handleSaveAndNext = async () => {
     if (selectedFile.length < 3) {
       Alert.alert("Adicione todos os documentos necessários, por favor.", "", [
@@ -66,9 +68,14 @@ export default function Upload() {
         },
       ]);
     } else {
-      const result = await uploadDocs(selectedFile);
-      if (result) {
-        router.push("/certificate");
+      try {
+        setIsLoading(true);
+        const result = await uploadDocs(selectedFile);
+        if (result) {
+          router.push("/certificate");
+        }
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -86,7 +93,7 @@ export default function Upload() {
           <AntDesign name="file1" size={16} color="black" />
         </Box>
         <Box w={"70%"}>
-          <Text ml={"10px"}>{item.nome}</Text>
+          <Text ml={"10px"}>{item.name}</Text>
         </Box>
         <Box w={"15%"} alignItems={"center"}>
           <Feather
