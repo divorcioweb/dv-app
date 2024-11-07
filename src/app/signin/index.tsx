@@ -10,13 +10,11 @@ import {
   Button,
   Pressable,
   Icon,
-  Checkbox,
   Image,
   Link,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useGlobalContext } from "../../context/context";
-import { screens } from "../../mock/screens";
 import { Formik } from "formik";
 import { loginSchema } from "../../utils/schema";
 import { validationRedirect } from "../../utils/validationRedirect";
@@ -120,11 +118,11 @@ export default function SignIn() {
                       <Text color="red.500">{errors.senha}</Text>
                     )}
                   </FormControl>
-                  <Checkbox value="true" color="info.600" mt={2}>
+                  {/* <Checkbox value="true" color="info.600" mt={2}>
                     <Text fontFamily="PathwayRegular">
                       Salvar login neste dispositivo
                     </Text>
-                  </Checkbox>
+                  </Checkbox> */}
                   <Button
                     w="80%"
                     h={52}

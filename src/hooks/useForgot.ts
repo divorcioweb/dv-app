@@ -1,6 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
-import { User } from "../utils/user";
 
 export default function useForgot() {
   const api = process.env.EXPO_PUBLIC_API_URL as string;
@@ -16,11 +14,8 @@ export default function useForgot() {
       });
 
       if (!response.ok) {
-        const result = await response.json();
         Toast.show({
-          text1: result.message
-            ? result.message
-            : "Algo deu errado, tente novamente!",
+          text1: "Verifique se preencheu corretamente seu email",
           type: "error",
         });
         return false;

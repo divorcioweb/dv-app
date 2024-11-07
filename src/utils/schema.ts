@@ -24,6 +24,15 @@ export const sendCodeSchema = yup.object().shape({
     .email("Insíra um email válido"),
 });
 
+export const updatePassSchema = yup.object().shape({
+  codigo: yup.string().required("Insira o código"),
+  senha: yup.string().required("Insira a senha"),
+  confirma_senha: yup
+    .string()
+    .oneOf([yup.ref("senha"), undefined], "As senhas não coincidem")
+    .required("Confirme a senha"),
+});
+
 export const userSchemaUpdate = yup.object().shape({
   nome: yup.string().required("O nome é obrigatório"),
   profissao: yup.string().required("A profissão é obrigatória"),
