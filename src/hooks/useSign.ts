@@ -18,7 +18,7 @@ export default function useSign() {
       if (!response.ok) {
         Toast.show({
           text1: "Credenciais inválidas!",
-          type: 'error'
+          type: "error",
         });
         return;
       }
@@ -96,5 +96,34 @@ export default function useSign() {
     }
   };
 
-  return { signIn, register, registerInit };
+  const updateConjuge = async (body: any) => {
+    try {
+      const response = await fetch(api + "/users/update/conjuge", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        Toast.show({
+          text1: "Falha para salvar as informações",
+        });
+        return false;
+      } else {
+        const data = await response.json();
+        Toast.show({
+          text1: data.message,
+        });
+        return true;
+      }
+    } catch (error) {
+      console.error("Error during sign in:", error);
+      return null;
+    }
+  };
+
+  return { signIn, register, registerInit, updateConjuge };
 }

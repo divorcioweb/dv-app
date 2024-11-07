@@ -33,6 +33,20 @@ export const updatePassSchema = yup.object().shape({
     .required("Confirme a senha"),
 });
 
+export const updateConjugeSchema = yup.object().shape({
+  nome: yup.string().required("O nome é obrigatório"),
+  telefone: yup.string().required("O telefone é obrigatório"),
+  profissao: yup.string().required("O nome é obrigatório"),
+  rg: yup.string().required("O nome é obrigatório"),
+  cpf: yup.string().required("O nome é obrigatório"),
+  endereco: yup.object().shape({
+    complemento: yup.string().required("O endereço é obrigatório"),
+    estado: yup.string().required("O estado é obrigatório"),
+    cidade: yup.string().required("A cidade é obrigatória"),
+    cep: yup.string().required("O CEP é obrigatório"),
+  }),
+});
+
 export const userSchemaUpdate = yup.object().shape({
   nome: yup.string().required("O nome é obrigatório"),
   profissao: yup.string().required("A profissão é obrigatória"),
