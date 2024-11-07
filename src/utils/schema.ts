@@ -17,6 +17,13 @@ export const registerSchema = yup.object().shape({
   senha: yup.string().required("A senha é obrigatória"),
 });
 
+export const sendCodeSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required("O e-mail é obrigatório")
+    .email("Insíra um email válido"),
+});
+
 export const userSchemaUpdate = yup.object().shape({
   nome: yup.string().required("O nome é obrigatório"),
   profissao: yup.string().required("A profissão é obrigatória"),

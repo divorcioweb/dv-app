@@ -18,6 +18,7 @@ export default function useSign() {
       if (!response.ok) {
         Toast.show({
           text1: "Credenciais inválidas!",
+          type: 'error'
         });
         return;
       }
