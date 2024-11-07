@@ -2,20 +2,17 @@ import {
   Box,
   Button,
   Center,
-  CheckIcon,
   Checkbox,
   FormControl,
   HStack,
   Heading,
   Input,
   Radio,
-  Select,
   Text,
   VStack,
-  View,
 } from "native-base";
 import { colors } from "../../../theme/colors";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { nationalitiesList } from "../../../mock/naturalidades";
 import { marital } from "../../../mock/marital";
 import { Platform, ScrollView, StyleSheet } from "react-native";
@@ -23,13 +20,12 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { countrys } from "../../../mock/countrys";
 import { Formik } from "formik";
 import { userSchemaUpdate } from "../../../utils/schema";
+import { useGlobalContext } from "../../../context/context";
+import { validationRedirect } from "../../../utils/validationRedirect";
 import Footer from "../../../components/Footer/Footer";
 import useSign from "../../../hooks/useSign";
 import RNPickerSelect from "react-native-picker-select";
-import { useGlobalContext } from "../../../context/context";
-import { validationRedirect } from "../../../utils/validationRedirect";
 import useEvents from "../../../hooks/useEvents";
-import Toast from "react-native-toast-message";
 
 export default function UserS() {
   const { register } = useSign();

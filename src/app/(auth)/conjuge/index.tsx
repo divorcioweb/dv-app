@@ -17,14 +17,20 @@ import { colors } from "../../../theme/colors";
 import React from "react";
 import { nationalitiesList } from "../../../mock/naturalidades";
 import { marital } from "../../../mock/marital";
-import { ScrollView } from "react-native";
+import { Platform, ScrollView, StyleSheet } from "react-native";
 import { useGlobalContext } from "../../../context/context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { countrys } from "../../../mock/countrys";
 import Footer from "../../../components/Footer/Footer";
+import RNPickerSelect from "react-native-picker-select";
 
 export default function Conjuge() {
   const [service, setService] = React.useState("");
+  const [pais, setPais] = React.useState("");
+  const [naturalidade, setNaturalidade] = React.useState("");
+  const [estado_civil, setEstado_civil] = React.useState("");
+  const [nome_solteiro, setNome_solteiro] = React.useState(true);
+
   const { navigation } = useGlobalContext();
 
   return (
@@ -87,48 +93,40 @@ export default function Conjuge() {
 
               <FormControl>
                 <FormControl.Label>Naturalidade</FormControl.Label>
-                <Select
-                  h={52}
-                  selectedValue={service}
-                  minWidth="200"
-                  _selectedItem={{
-                    bg: colors.greenDarkOpacity,
-                    endIcon: <CheckIcon size="4" />,
+                <RNPickerSelect
+                  placeholder={{
+                    label: "",
+                    value: "",
                   }}
-                  backgroundColor={"white"}
-                  onValueChange={(itemValue) => setService(itemValue)}
-                >
-                  {nationalitiesList.map((item) => (
-                    <Select.Item
-                      shadow={2}
-                      label={item.label}
-                      value={item.value}
-                    />
-                  ))}
-                </Select>
+                  style={{
+                    inputAndroid: styles.select,
+                    inputIOS: styles.select,
+                  }}
+                  onValueChange={(value) => {
+                    setNaturalidade(value);
+                  }}
+                  value={naturalidade}
+                  items={nationalitiesList}
+                />
               </FormControl>
 
               <FormControl>
                 <FormControl.Label>Estado civil</FormControl.Label>
-                <Select
-                  h={52}
-                  selectedValue={service}
-                  minWidth="200"
-                  _selectedItem={{
-                    bg: colors.greenDarkOpacity,
-                    endIcon: <CheckIcon size="4" />,
+                <RNPickerSelect
+                  placeholder={{
+                    label: "",
+                    value: "",
                   }}
-                  backgroundColor={"white"}
-                  onValueChange={(itemValue) => setService(itemValue)}
-                >
-                  {marital.map((item) => (
-                    <Select.Item
-                      shadow={2}
-                      label={item.label}
-                      value={item.value}
-                    />
-                  ))}
-                </Select>
+                  style={{
+                    inputAndroid: styles.select,
+                    inputIOS: styles.select,
+                  }}
+                  onValueChange={(value) => {
+                    setEstado_civil(value);
+                  }}
+                  value={estado_civil}
+                  items={marital}
+                />
               </FormControl>
 
               <FormControl>
@@ -176,26 +174,23 @@ export default function Conjuge() {
               </HStack>
 
               <HStack w={"100%"} justifyContent={"space-between"}>
-                <FormControl w={"48%"}>
+                <FormControl w={"48%"} zIndex={100}>
                   <FormControl.Label>Pais</FormControl.Label>
-                  <Select
-                    h={52}
-                    selectedValue={service}
-                    _selectedItem={{
-                      bg: colors.greenDarkOpacity,
-                      endIcon: <CheckIcon size="4" />,
+                  <RNPickerSelect
+                    placeholder={{
+                      label: "",
+                      value: "",
                     }}
-                    backgroundColor={"white"}
-                    onValueChange={(itemValue) => setService(itemValue)}
-                  >
-                    {countrys.map((item) => (
-                      <Select.Item
-                        shadow={2}
-                        label={item.label}
-                        value={item.value}
-                      />
-                    ))}
-                  </Select>
+                    style={{
+                      inputAndroid: styles.selectPais,
+                      inputIOS: styles.selectPais,
+                    }}
+                    onValueChange={(value) => {
+                      setPais(value);
+                    }}
+                    value={pais}
+                    items={countrys}
+                  />
                 </FormControl>
                 <FormControl w={"48%"}>
                   <FormControl.Label>CEP</FormControl.Label>
@@ -233,3 +228,36 @@ export default function Conjuge() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  select: {
+    width: "100%",
+    paddingLeft: 10,
+    paddingRight: Platform.OS === "ios" ? 14 : 0,
+    height: 48,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "white",
+    marginBottom: 3,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#d8d8d8",
+  },
+  selectPais: {
+    width: "100%",
+    paddingLeft: 10,
+    paddingRight: Platform.OS === "ios" ? 14 : 0,
+    height: 52,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "white",
+    marginBottom: 3,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#d8d8d8",
+  },
+});

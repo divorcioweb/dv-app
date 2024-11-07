@@ -1,13 +1,80 @@
+// Interface para o corpo de dados
+interface Endereco {
+  id: string;
+  complemento: string | null;
+  estado: string | null;
+  cidade: string | null;
+  pais: string | null;
+  cep: string | null;
+  criado_em: string;
+  atualizado_em: string;
+  usuario_id: string;
+}
+
+interface Pagamento {
+  id: string;
+  porcentagem: number;
+  total: number;
+  valor_pago: number;
+  pago: boolean;
+  criado_em: string;
+  atualizado_em: string;
+  usuario_id: string;
+}
+
+interface Conjuge {
+  id: string;
+  nome: string;
+  cpf: string;
+  rg: string;
+  email: string;
+  naturalidade: string;
+  nome_solteiro: boolean;
+  nao_possui_filhos_menores: boolean;
+  type: number;
+  estado_civil: string;
+  profissao: string;
+  telefone: string;
+  senha: string;
+  status: string;
+  endereco: Endereco;
+  criado_em: string;
+  atualizado_em: string;
+  pagamento: Pagamento;
+}
+
+interface UserData {
+  id: string;
+  nome: string;
+  cpf: string | null;
+  rg: string | null;
+  email: string;
+  naturalidade: string | null;
+  nome_solteiro: boolean | null;
+  nao_possui_filhos_menores: boolean | null;
+  type: number;
+  estado_civil: string | null;
+  profissao: string | null;
+  telefone: string | null;
+  status: string;
+  criado_em: string;
+  atualizado_em: string;
+  endereco: Endereco;
+  pagamento: Pagamento;
+  conjuge: Conjuge | null;
+}
+
+// Ajustes para a classe User
 export class User {
   static user: {
     id: string;
     email: string;
     nome: string;
-    profissao: string;
-    rg: string;
-    cpf: string;
-    telefone: string;
-    naturalidade: string;
+    profissao: string | null;
+    rg: string | null;
+    cpf: string | null;
+    telefone: string | null;
+    naturalidade: string | null;
     nao_possui_filhos_menores: boolean | null;
     nome_solteiro: boolean | null;
     is_admin: boolean | null;
@@ -18,41 +85,24 @@ export class User {
     usuario_id: string | null;
   };
 
-  static initialize(
-    id: string,
-    email: string,
-    nome: string,
-    profissao: string,
-    rg: string,
-    cpf: string,
-    telefone: string,
-    naturalidade: string,
-    nao_possui_filhos_menores: boolean | null,
-    nome_solteiro: boolean | null,
-    is_admin: boolean | null,
-    status: string,
-    atualizado_em: string,
-    criado_em: string,
-    type: number | null,
-    usuario_id: string | null
-  ) {
+  static initialize(data: UserData) {
     this.user = {
-      id: id,
-      email: email,
-      nome: nome,
-      cpf: cpf,
-      rg: rg,
-      profissao: profissao,
-      naturalidade: naturalidade,
-      telefone: telefone,
-      nome_solteiro: nome_solteiro,
-      nao_possui_filhos_menores: nao_possui_filhos_menores,
-      is_admin: is_admin,
-      status: status,
-      atualizado_em: atualizado_em,
-      criado_em: criado_em,
-      type: type,
-      usuario_id: usuario_id,
+      id: data.id,
+      email: data.email,
+      nome: data.nome,
+      profissao: data.profissao,
+      rg: data.rg,
+      cpf: data.cpf,
+      telefone: data.telefone,
+      naturalidade: data.naturalidade,
+      nome_solteiro: data.nome_solteiro,
+      nao_possui_filhos_menores: data.nao_possui_filhos_menores,
+      is_admin: data.type === 1 ? true : false,
+      status: data.status,
+      atualizado_em: data.atualizado_em,
+      criado_em: data.criado_em,
+      type: data.type,
+      usuario_id: data.id,
     };
   }
 
@@ -71,11 +121,11 @@ export class User {
       id: "",
       email: "",
       nome: "",
-      cpf: "",
-      rg: "",
-      profissao: "",
-      naturalidade: "",
-      telefone: "",
+      cpf: null,
+      rg: null,
+      profissao: null,
+      naturalidade: null,
+      telefone: null,
       nome_solteiro: null,
       nao_possui_filhos_menores: null,
       is_admin: null,
@@ -87,25 +137,3 @@ export class User {
     };
   }
 }
-
-const body = {
-  atualizado_em: "2024-10-18T17:09:15.643Z",
-  cpf: null,
-  criado_em: "2024-10-18T17:09:15.643Z",
-  email: "gui@gmail.com",
-  estado_civil: null,
-  id: "839487c7-5fc8-4345-b4df-94e60161e26b",
-  is_admin: false,
-  nao_possui_filhos_menores: null,
-  naturalidade: null,
-  nome: null,
-  nome_solteiro: null,
-  profissao: null,
-  rg: null,
-  status: "Aguardando finalizar cadastro",
-  telefone: "77999577372",
-  token:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgzOTQ4N2M3LTVmYzgtNDM0NS1iNGRmLTk0ZTYwMTYxZTI2YiIsImlhdCI6MTcyOTgwNDYxNywiZXhwIjoxNzI5ODkxMDE3fQ.nFb71Mt9jggH-KLOqnyIG9PB7PnegNSNW7haHaWYpZY",
-  type: 1,
-  usuario_id: null,
-};
