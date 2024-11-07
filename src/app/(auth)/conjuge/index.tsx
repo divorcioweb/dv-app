@@ -23,6 +23,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { countrys } from "../../../mock/countrys";
 import Footer from "../../../components/Footer/Footer";
 import RNPickerSelect from "react-native-picker-select";
+import { User } from "../../../utils/user";
 
 export default function Conjuge() {
   const [service, setService] = React.useState("");
@@ -32,6 +33,8 @@ export default function Conjuge() {
   const [nome_solteiro, setNome_solteiro] = React.useState(true);
 
   const { navigation } = useGlobalContext();
+
+  const user = User.getUser();
 
   return (
     <>
@@ -57,9 +60,9 @@ export default function Conjuge() {
               </Heading>
             </Box>
             <Text fontFamily="PathwayRegular" fontSize={16} mt={2}>
-              Você recebeu um convite de XXXXX para se cadastrar aqui no
-              aplicativo. Para seguirmos com os próximos passos, necessitamos do
-              seu cadastro, os itens abaixo são obrigatórios.
+              Você recebeu um convite de {user.conjuge?.nome} para se cadastrar
+              aqui no aplicativo. Para seguirmos com os próximos passos,
+              necessitamos do seu cadastro, os itens abaixo são obrigatórios.
             </Text>
 
             <VStack mt={4} space={2}>

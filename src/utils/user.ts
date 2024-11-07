@@ -61,7 +61,7 @@ interface UserData {
   atualizado_em: string;
   endereco: Endereco;
   pagamento: Pagamento;
-  conjuge: Conjuge | null;
+  conjuge: Conjuge;
 }
 
 // Ajustes para a classe User
@@ -77,12 +77,14 @@ export class User {
     naturalidade: string | null;
     nao_possui_filhos_menores: boolean | null;
     nome_solteiro: boolean | null;
-    is_admin: boolean | null;
     status: string;
     atualizado_em: string;
     criado_em: string;
     type: number | null;
     usuario_id: string | null;
+    endereco: Endereco | null;
+    pagamento: Pagamento | null;
+    conjuge: Conjuge | null;
   };
 
   static initialize(data: UserData) {
@@ -97,12 +99,14 @@ export class User {
       naturalidade: data.naturalidade,
       nome_solteiro: data.nome_solteiro,
       nao_possui_filhos_menores: data.nao_possui_filhos_menores,
-      is_admin: data.type === 1 ? true : false,
       status: data.status,
       atualizado_em: data.atualizado_em,
       criado_em: data.criado_em,
       type: data.type,
       usuario_id: data.id,
+      endereco: data.endereco,
+      pagamento: data.pagamento,
+      conjuge: data.conjuge,
     };
   }
 
@@ -128,12 +132,14 @@ export class User {
       telefone: null,
       nome_solteiro: null,
       nao_possui_filhos_menores: null,
-      is_admin: null,
       status: "",
       atualizado_em: "",
       criado_em: "",
       type: null,
       usuario_id: "",
+      endereco: null,
+      pagamento: null,
+      conjuge: null,
     };
   }
 }
