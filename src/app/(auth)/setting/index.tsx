@@ -66,7 +66,7 @@ export default function Setting() {
               </Button>
 
               <Button
-                onPress={() => navigation(screens.certificate)}
+                onPress={() => setModalVisible(true)}
                 justifyContent={"flex-start"}
                 backgroundColor={"transparent"}
                 leftIcon={

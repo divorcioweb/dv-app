@@ -17,6 +17,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useGlobalContext } from "../../../context/context";
 
 import React from "react";
+import { router } from "expo-router";
 
 export default function ChangePassword() {
   const { navigation } = useGlobalContext();
@@ -45,10 +46,7 @@ export default function ChangePassword() {
               resolvê-lo rapidamente.
             </Text>
 
-            <VStack
-              space={3}
-              mt="5"
-            >
+            <VStack space={3} mt="5">
               <FormControl>
                 <FormControl.Label>Descreva o problema</FormControl.Label>
                 <TextArea
@@ -69,6 +67,19 @@ export default function ChangePassword() {
                 <Text fontSize={18} fontFamily="PathwayBold">
                   Enviar
                 </Text>
+              </Button>
+
+              <Button
+                w="50%"
+                h={52}
+                mt={2}
+                rounded="2xl"
+                mx="auto"
+                backgroundColor="white"
+                borderWidth={1}
+                onPress={() => router.navigate('/setting')}
+              >
+                <Text fontFamily="PathwayBold">Voltar</Text>
               </Button>
             </VStack>
           </VStack>

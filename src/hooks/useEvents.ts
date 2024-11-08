@@ -28,9 +28,11 @@ export default function useEvents() {
         }),
       });
 
-      console.log("TUDO CERTO", await response.json());
+      if (response.ok) {
+        router.push("/calendar");
+      }
     } catch (error) {
-      console.error("Error during sign in:", error);
+      console.error("TUDO ERRADO", error);
       return null;
     }
   };

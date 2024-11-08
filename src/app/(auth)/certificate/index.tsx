@@ -12,21 +12,22 @@ import { colors } from "../../../theme/colors";
 import React, { useState } from "react";
 import { Alert, ScrollView, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { useGlobalContext } from "../../../context/context";
 
 import Footer from "../../../components/Footer/Footer";
 import WebView from "react-native-webview";
-import { router } from "expo-router";
 import useEvents from "../../../hooks/useEvents";
-import { useGlobalContext } from "../../../context/context";
+import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 
 export default function Certificate() {
   const [confirm, setConfirm] = useState<boolean | null>(null);
 
   const { saveEvent } = useEvents();
-  const { setIsLoading } = useGlobalContext();
+  const { setIsLoading, isLoading } = useGlobalContext();
 
   return (
     <>
+      {isLoading && <LoadingTransparent />}
       <ScrollView style={{ backgroundColor: colors.background }}>
         <Center
           w="100%"

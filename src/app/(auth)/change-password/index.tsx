@@ -15,6 +15,8 @@ import React from "react";
 import { ScrollView } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useGlobalContext } from "../../../context/context";
+import { router } from "expo-router";
+import Footer from "../../../components/Footer/Footer";
 
 export default function ChangePassword() {
   const [showActual, setShowActual] = React.useState(false);
@@ -126,6 +128,19 @@ export default function ChangePassword() {
                 <Text fontSize={18} fontFamily="PathwayBold">
                   Salvar
                 </Text>
+              </Button>
+
+              <Button
+                w="80%"
+                h={52}
+                mt={2}
+                rounded="2xl"
+                mx="auto"
+                backgroundColor="white"
+                borderWidth={1}
+                onPress={() => router.navigate('/setting')}
+              >
+                <Text fontFamily="PathwayBold">Voltar</Text>
               </Button>
             </VStack>
           </VStack>
