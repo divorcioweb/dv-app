@@ -18,6 +18,7 @@ import Footer from "../../../components/Footer/Footer";
 import WebView from "react-native-webview";
 import useEvents from "../../../hooks/useEvents";
 import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
+import { router } from "expo-router";
 
 export default function Certificate() {
   const [confirm, setConfirm] = useState<boolean | null>(null);
@@ -141,11 +142,15 @@ export default function Certificate() {
                   if (confirm) {
                     try {
                       setIsLoading(true);
-                      await saveEvent({
+                      const response: any = await saveEvent({
                         data: new Date().toISOString(),
                         status: "Acompanhamento de eventos",
                         titulo: "Aceito de renúncia aos alimentos",
                       });
+
+                      if (response.ok) {
+                        router.push("/calendar");
+                      }
                     } finally {
                       setIsLoading(false);
                     }

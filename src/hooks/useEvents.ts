@@ -28,9 +28,7 @@ export default function useEvents() {
         }),
       });
 
-      if (response.ok) {
-        router.push("/calendar");
-      }
+      return response
     } catch (error) {
       console.error("TUDO ERRADO", error);
       return null;

@@ -19,15 +19,17 @@ import { registerSchema } from "../../utils/schema";
 import { router } from "expo-router";
 import useSign from "../../hooks/useSign";
 import { ScrollView } from "react-native";
+import LoadingTransparent from "../../components/LoadingTransparent/LoadingTransparent";
 
 export default function SignUp() {
   const [show, setShow] = React.useState(false);
-  const { setIsLoading } = useGlobalContext();
+  const { setIsLoading, isLoading } = useGlobalContext();
 
   const { registerInit } = useSign();
 
   return (
     <>
+      {isLoading && <LoadingTransparent />}
       <ScrollView style={{ backgroundColor: colors.background, flex: 1 }}>
         <Center
           w="100%"

@@ -21,16 +21,17 @@ import { countrys } from "../../../mock/countrys";
 import { Formik } from "formik";
 import { userSchemaUpdate } from "../../../utils/schema";
 import { useGlobalContext } from "../../../context/context";
-import { validationRedirect } from "../../../utils/validationRedirect";
+
 import Footer from "../../../components/Footer/Footer";
 import useSign from "../../../hooks/useSign";
 import RNPickerSelect from "react-native-picker-select";
 import useEvents from "../../../hooks/useEvents";
+import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 
 export default function UserS() {
   const { register } = useSign();
   const { saveEvent } = useEvents();
-  const { navigation, setIsLoading } = useGlobalContext();
+  const { navigation, setIsLoading, isLoading } = useGlobalContext();
 
   const [pais, setPais] = useState("");
   const [naturalidade, setNaturalidade] = useState("");
@@ -74,10 +75,7 @@ export default function UserS() {
 
       if (response) {
         navigation(
-          validationRedirect(
-            "Aguardando aceite do contrato de serviços",
-            response.type
-          ),
+          "provision-of-services",
           true
         );
         await saveEvent({
@@ -93,6 +91,7 @@ export default function UserS() {
 
   return (
     <>
+      {isLoading && <LoadingTransparent />}
       <ScrollView style={{ backgroundColor: colors.background }}>
         <Center
           w="100%"
@@ -343,24 +342,6 @@ export default function UserS() {
                           value={pais}
                           items={countrys}
                         />
-                        {/* <Select
-                          h={52}
-                          selectedValue={pais}
-                          _selectedItem={{
-                            bg: colors.greenDarkOpacity,
-                            endIcon: <CheckIcon size="4" />,
-                          }}
-                          backgroundColor={"white"}
-                          onValueChange={(itemValue) => setPais(itemValue)}
-                        >
-                          {countrys.map((item) => (
-                            <Select.Item
-                              shadow={2}
-                              label={item.label}
-                              value={item.value}
-                            />
-                          ))}
-                        </Select> */}
                       </FormControl>
                       <FormControl w={"48%"}>
                         <FormControl.Label>CEP</FormControl.Label>

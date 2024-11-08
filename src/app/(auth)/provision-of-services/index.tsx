@@ -19,9 +19,10 @@ import useEvents from "../../../hooks/useEvents";
 import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 
 export default function ProvisionOfServices() {
-  const { navigation, setIsLoading, isLoading } = useGlobalContext();
+  const { navigation } = useGlobalContext();
   const scrollViewRef = useRef<any>(null);
   const [confirm, setConfirm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const scrollAmount = 100;
 
