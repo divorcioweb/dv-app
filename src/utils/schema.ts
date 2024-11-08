@@ -47,6 +47,15 @@ export const updateConjugeSchema = yup.object().shape({
   }),
 });
 
+export const changePassSchema = yup.object().shape({
+  senha_atual: yup.string().required("Insira o código"),
+  nova_senha: yup.string().required("Insira a senha"),
+  confirma_nova_senha: yup
+    .string()
+    .oneOf([yup.ref("nova_senha"), undefined], "As senhas não coincidem")
+    .required("Confirme a senha"),
+});
+
 export const userSchemaUpdate = yup.object().shape({
   nome: yup.string().required("O nome é obrigatório"),
   profissao: yup.string().required("A profissão é obrigatória"),

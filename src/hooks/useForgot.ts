@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 
 export default function useForgot() {
@@ -72,5 +73,41 @@ export default function useForgot() {
     }
   };
 
-  return { sendCode, updatePass };
+  const changePass = async ({
+    senha_atual,
+    nova_senha,
+  }: {
+    senha_atual: string;
+    nova_senha: string;
+  }) => {
+    try {
+      const response = await fetch(api + "/users/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ senha_atual, nova_senha }),
+      });
+
+      if (!response.ok) {
+        Toast.show({
+          text1: "Algo deu errado, tente novamente!",
+        });
+        return false;
+      } else {
+        await AsyncStorage.setItem("senha", nova_senha);
+        Toast.show({
+          text1: "Senha atualizada com sucesso!",
+          type: "success",
+        });
+        return true;
+      }
+    } catch (error) {
+      console.error("Error during sign in:", error);
+      return null;
+    }
+  };
+
+  return { sendCode, updatePass, changePass };
 }

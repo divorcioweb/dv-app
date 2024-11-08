@@ -3,7 +3,6 @@ import {
   Center,
   Heading,
   Modal,
-  Pressable,
   Text,
   VStack,
 } from "native-base";
