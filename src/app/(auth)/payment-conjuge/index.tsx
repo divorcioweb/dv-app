@@ -11,7 +11,7 @@ import {
   VStack,
 } from "native-base";
 import { colors } from "../../../theme/colors";
-import { ScrollView } from "react-native";
+import { Alert, ScrollView } from "react-native";
 import { useGlobalContext } from "../../../context/context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { screens } from "../../../mock/screens";
@@ -21,10 +21,15 @@ import Footer from "../../../components/Footer/Footer";
 import { User, UserData } from "../../../utils/user";
 import Toast from "react-native-toast-message";
 import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
+import usePayment from "../../../hooks/usePayment";
+import { CardField, confirmPayment } from "@stripe/stripe-react-native";
+import { router } from "expo-router";
 
 export default function PaymentScreenConjuge() {
   const [service, setService] = React.useState("");
   const { navigation, setIsLoading, isLoading } = useGlobalContext();
+
+  const { intentPayment } = usePayment();
 
   const user = User.getUser();
 
@@ -40,7 +45,8 @@ export default function PaymentScreenConjuge() {
         navigation("calendar", true);
         Toast.show({
           text1: "Aguarde o cônjuge iniciar o pagamento!",
-          text2: "É preciso aguardar o cônjuge finalizar sua etapa de pagamento",
+          text2:
+            "É preciso aguardar o cônjuge finalizar sua etapa de pagamento",
           type: "info",
         });
       }
@@ -49,7 +55,7 @@ export default function PaymentScreenConjuge() {
     }
   };
 
-  console.log(user.conjuge?.pagamento)
+  const [selectedValue, setSelectedValue] = React.useState(2);
 
   return (
     <>
@@ -95,51 +101,72 @@ export default function PaymentScreenConjuge() {
 
             <VStack mt={4} space={2}>
               <FormControl>
-                <FormControl.Label>Parcelamento</FormControl.Label>
-                <Select
-                  h={52}
-                  selectedValue={service}
-                  minWidth="200"
-                  _selectedItem={{
-                    bg: colors.greenDarkOpacity,
-                    endIcon: <CheckIcon size="4" />,
+                <FormControl.Label>Cartão</FormControl.Label>
+                <CardField
+                  postalCodeEnabled={false}
+                  placeholders={{
+                    number: "4242 4242 4242 4242",
                   }}
-                  backgroundColor={"white"}
-                  onValueChange={(itemValue) => setService(itemValue)}
-                >
-                  {parcelas.map((item) => (
-                    <Select.Item
-                      shadow={2}
-                      label={item.label}
-                      value={item.value}
-                    />
-                  ))}
-                </Select>
+                  cardStyle={{
+                    backgroundColor: "#FFFFFF",
+                    textColor: "#1f1c1c",
+                    borderWidth: 1,
+                    borderColor: "#BECDCF",
+                    borderRadius: 8,
+                  }}
+                  style={{
+                    width: "100%",
+                    height: 50,
+                    marginVertical: 4,
+                  }}
+                />
               </FormControl>
-
-              <Box alignItems="flex-end" w="100%" mt={10}>
-                <Button
-                  onPress={() => navigation(screens.upload)}
-                  backgroundColor={colors.yellow}
-                  h={52}
-                  px={"4"}
-                  rounded="2xl"
-                  textDecorationColor="black"
-                  flexDirection="row"
-                  endIcon={
-                    <MaterialIcons
-                      name="navigate-next"
-                      size={24}
-                      color="black"
-                    />
-                  }
-                >
-                  <Text fontSize={16} fontFamily="PathwayBold">
-                    Salvar e Proximo
-                  </Text>
-                </Button>
-              </Box>
             </VStack>
+            <Box alignItems="flex-end" w="100%" mt={10}>
+              <Button
+                onPress={async () => {
+                  try {
+                    setIsLoading(true);
+                    const { paymentIntent: intentKey } = await intentPayment(
+                      Number(user.pagamento?.porcentagem)
+                    );
+
+                    const { paymentIntent, error } = await confirmPayment(
+                      intentKey,
+                      {
+                        paymentMethodType: "Card",
+                      }
+                    );
+                    if (paymentIntent) {
+                      Toast.show({
+                        text1: "Pagamento confirmado!",
+                      });
+                      router.push("/upload");
+                    }
+                    if (error) {
+                      Alert.alert(
+                        "Verifique as informações e tente novamente!"
+                      );
+                    }
+                  } finally {
+                    setIsLoading(false);
+                  }
+                }}
+                backgroundColor={colors.yellow}
+                h={52}
+                px={"4"}
+                rounded="2xl"
+                textDecorationColor="black"
+                flexDirection="row"
+                endIcon={
+                  <MaterialIcons name="navigate-next" size={24} color="black" />
+                }
+              >
+                <Text fontSize={16} fontFamily="PathwayBold">
+                  Salvar e Proximo
+                </Text>
+              </Button>
+            </Box>
           </VStack>
         </Center>
       </ScrollView>

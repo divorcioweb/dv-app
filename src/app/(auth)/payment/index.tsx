@@ -119,29 +119,6 @@ export default function PaymentScreen() {
               </HStack>
 
               <VStack mt={4} space={2}>
-                {/* <FormControl>
-                  <FormControl.Label>Parcelamento</FormControl.Label>
-                  <Select
-                    h={52}
-                    selectedValue={service}
-                    minWidth="200"
-                    _selectedItem={{
-                      bg: colors.greenDarkOpacity,
-                      endIcon: <CheckIcon size="4" />,
-                    }}
-                    backgroundColor={"white"}
-                    onValueChange={(itemValue) => setService(itemValue)}
-                  >
-                    {parcelas.map((item) => (
-                      <Select.Item
-                        shadow={2}
-                        label={item.label}
-                        value={item.value}
-                      />
-                    ))}
-                  </Select>
-                </FormControl> */}
-
                 <FormControl>
                   <FormControl.Label>Cartão</FormControl.Label>
                   <CardField
