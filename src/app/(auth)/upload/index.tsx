@@ -23,6 +23,7 @@ import UploadFile from "../../../components/Upload/Upload";
 import useDocs from "../../../hooks/useDocs";
 import { router } from "expo-router";
 import { useGlobalContext } from "../../../context/context";
+import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 
 export default function Upload() {
   const [IAgree, setIAgree] = React.useState(false);
@@ -31,14 +32,14 @@ export default function Upload() {
   const regex = /\(\d+\)/;
 
   const { uploadDocs } = useDocs();
-  const { setIsLoading } = useGlobalContext();
+  const { setIsLoading, isLoading } = useGlobalContext();
 
   const pickDocument = async (value: any) => {
     try {
       const result: any = await DocumentPicker.getDocumentAsync();
       if (result.type !== "cancel") {
         const existType = selectedFile.filter(
-          (file: any) => file.name.split(' ')[0] === value
+          (file: any) => file.name.split(" ")[0] === value
         );
         if (existType.length === 0) {
           const filtered = selectedFile.filter(
@@ -109,6 +110,7 @@ export default function Upload() {
 
   return (
     <>
+      {isLoading && <LoadingTransparent />}
       <ScrollView style={{ backgroundColor: colors.background }}>
         <Center
           w="100%"

@@ -16,6 +16,7 @@ import { colors } from "../../../theme/colors";
 import { screens } from "../../../mock/screens";
 import Footer from "../../../components/Footer/Footer";
 import useEvents from "../../../hooks/useEvents";
+import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 
 export default function ProvisionOfServices() {
   const { navigation, setIsLoading, isLoading } = useGlobalContext();
@@ -44,6 +45,7 @@ export default function ProvisionOfServices() {
 
   return (
     <>
+      {isLoading && <LoadingTransparent />}
       <ScrollView style={{ backgroundColor: colors.background }}>
         <Center
           w="100%"
