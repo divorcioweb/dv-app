@@ -11,20 +11,49 @@ import {
   VStack,
 } from "native-base";
 import { colors } from "../../../theme/colors";
-import React from "react";
 import { ScrollView } from "react-native";
 import { useGlobalContext } from "../../../context/context";
 import { MaterialIcons } from "@expo/vector-icons";
-import Footer from "../../../components/Footer/Footer";
 import { screens } from "../../../mock/screens";
 import { parcelas } from "../../../mock/parcelas";
+import React, { useEffect } from "react";
+import Footer from "../../../components/Footer/Footer";
+import { User, UserData } from "../../../utils/user";
+import Toast from "react-native-toast-message";
+import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 
-export default function User() {
+export default function PaymentScreenConjuge() {
   const [service, setService] = React.useState("");
-  const { navigation } = useGlobalContext();
+  const { navigation, setIsLoading, isLoading } = useGlobalContext();
+
+  const user = User.getUser();
+
+  useEffect(() => {
+    get();
+  }, []);
+
+  const get = async () => {
+    try {
+      setIsLoading(true);
+
+      if (!user.conjuge?.pagamento.pago) {
+        navigation("calendar", true);
+        Toast.show({
+          text1: "Aguarde o cônjuge iniciar o pagamento!",
+          text2: "É preciso aguardar o cônjuge finalizar sua etapa de pagamento",
+          type: "info",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  console.log(user.conjuge?.pagamento)
 
   return (
     <>
+      {isLoading && <LoadingTransparent />}
       <ScrollView style={{ backgroundColor: colors.background }}>
         <Center
           w="100%"
@@ -53,10 +82,14 @@ export default function User() {
               justifyContent={"space-between"}
             >
               <Heading fontFamily="PathwayBold" fontSize={18}>
-                SUA PARTE DO {"\n"}PAGAMENTO É DE 50%
+                SUA PARTE DO {"\n"}PAGAMENTO É DE {user.pagamento?.porcentagem}%
               </Heading>
               <Heading fontFamily="PathwayBold" fontSize={24}>
-                R$ 2.000,00
+                {user.pagamento?.valor_pago &&
+                  user.pagamento?.valor_pago.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "brl",
+                  })}
               </Heading>
             </HStack>
 

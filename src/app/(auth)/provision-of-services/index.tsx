@@ -17,6 +17,9 @@ import { screens } from "../../../mock/screens";
 import Footer from "../../../components/Footer/Footer";
 import useEvents from "../../../hooks/useEvents";
 import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
+import useUser from "../../../hooks/useUser";
+import { User, UserData } from "../../../utils/user";
+import { router } from "expo-router";
 
 export default function ProvisionOfServices() {
   const { navigation } = useGlobalContext();
@@ -43,6 +46,7 @@ export default function ProvisionOfServices() {
   };
 
   const { acceptContractEvent } = useEvents();
+  const { getUser } = useUser();
 
   return (
     <>
@@ -174,6 +178,8 @@ export default function ProvisionOfServices() {
                         titulo: "Contrato de serviço aceito",
                         status: "Aguardando confirmação de pagamento",
                       });
+
+                      const user: UserData = await getUser(User.getUser()?.id);
                       if (
                         response.status === "Aguardando envio de documentos"
                       ) {
@@ -182,7 +188,21 @@ export default function ProvisionOfServices() {
                         if (response.type === 1) {
                           navigation(screens.payment, true);
                         } else {
-                          navigation(screens.paymentConjuge, true);
+                          if (user.conjuge.pagamento.pago) {
+                            navigation(screens.paymentConjuge, true);
+                          } else {
+                            Alert.alert(
+                              "Aguarde seu cônjuge iniciar primeira etapa do pagamento!",
+                              "",
+                              [
+                                {
+                                  onPress: () => {
+                                    navigation("calendar", true);
+                                  },
+                                },
+                              ]
+                            );
+                          }
                         }
                       }
                     } finally {

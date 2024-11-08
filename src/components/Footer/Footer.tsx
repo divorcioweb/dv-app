@@ -38,7 +38,7 @@ export default function Footer() {
           <Button
             w={"1/6"}
             h={"full"}
-            onPress={() => navigation(screens.upload, true)}
+            // onPress={() => navigation(screens.upload, true)}
             alignItems={"center"}
             justifyContent={"center"}
             opacity={selected === "upload" ? 1 : 50}
@@ -51,7 +51,7 @@ export default function Footer() {
           <Button
             w={"1/6"}
             h={"full"}
-            onPress={() => navigation(screens.payment, true)}
+            // onPress={() => navigation(screens.payment, true)}
             alignItems={"center"}
             justifyContent={"center"}
             opacity={selected === "payment" ? 1 : 50}
@@ -64,7 +64,7 @@ export default function Footer() {
             <AntDesign name="creditcard" size={size} color="#ffffff" />
           </Button>
           <Button
-            onPress={() => navigation(screens.user, true)}
+            // onPress={() => navigation(screens.user, true)}
             w={"1/6"}
             h={"full"}
             alignItems={"center"}

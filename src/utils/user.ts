@@ -43,7 +43,7 @@ interface Conjuge {
   pagamento: Pagamento;
 }
 
-interface UserData {
+export interface UserData {
   id: string;
   nome: string;
   cpf: string | null;
@@ -64,7 +64,6 @@ interface UserData {
   conjuge: Conjuge;
 }
 
-// Ajustes para a classe User
 export class User {
   static user: {
     id: string;

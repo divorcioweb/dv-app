@@ -9,7 +9,11 @@ export const validationRedirect = (status: string, type?: number) => {
   } else if (status === statusUser[2]) {
     return "provision-of-services";
   } else if (status === statusUser[3]) {
-    return "payment";
+    if (type === 1) {
+      return "payment";
+    } else {
+      return "payment-conjuge";
+    }
   } else if (status === statusUser[4]) {
     return "upload";
   } else if (status === statusUser[5]) {

@@ -1,3 +1,4 @@
+import { User } from "./../utils/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function useUser() {
@@ -12,7 +13,9 @@ export default function useUser() {
         },
       });
 
-      return await response.json();
+      const result = await response.json();
+      User.setUser(result);
+      return result;
     } catch (error) {
       console.error("Error during sign in:", error);
       return null;
