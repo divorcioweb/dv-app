@@ -19,7 +19,6 @@ import useEvents from "../../../hooks/useEvents";
 import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 import useUser from "../../../hooks/useUser";
 import { User, UserData } from "../../../utils/user";
-import { router } from "expo-router";
 
 export default function ProvisionOfServices() {
   const { navigation } = useGlobalContext();
