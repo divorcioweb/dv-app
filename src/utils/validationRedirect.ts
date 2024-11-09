@@ -1,5 +1,4 @@
 export const validationRedirect = (status: string, type?: number) => {
-  return "minuta";
   if (status === statusUser[1]) {
     if (type === 1) {
       return "user";
