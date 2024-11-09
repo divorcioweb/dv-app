@@ -40,7 +40,7 @@ export default function Layout() {
             name="payment-conjuge"
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="certificate" options={{ headerShown: false }} />
+          <Stack.Screen name="explicativo" options={{ headerShown: false }} />
           <Stack.Screen
             name="change-password"
             options={{ headerShown: false }}
@@ -50,10 +50,8 @@ export default function Layout() {
             name="provision-of-services"
             options={{ headerShown: false }}
           />
-          <Stack.Screen
-            name="minuta"
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name="escritura" options={{ headerShown: false }} />
+          <Stack.Screen name="minuta" options={{ headerShown: false }} />
         </Stack>
       )}
     </>

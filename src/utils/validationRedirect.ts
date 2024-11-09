@@ -1,6 +1,5 @@
 export const validationRedirect = (status: string, type?: number) => {
-  return "upload";
-
+  return "minuta";
   if (status === statusUser[1]) {
     if (type === 1) {
       return "user";
@@ -18,7 +17,7 @@ export const validationRedirect = (status: string, type?: number) => {
   } else if (status === statusUser[4]) {
     return "upload";
   } else if (status === statusUser[5]) {
-    return "certificate";
+    return "explicativo";
   } else if (status === statusUser[6]) {
     return "minuta";
   } else {
