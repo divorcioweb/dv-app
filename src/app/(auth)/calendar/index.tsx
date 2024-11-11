@@ -57,11 +57,13 @@ export default function Calendar() {
             </Box>
 
             {/* FlatList para exibir os eventos */}
-            <FlatList
-              data={events}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => <EventItem event={item} />}
-            />
+            <ScrollView style={{ maxHeight: "42%" }}>
+              <FlatList
+                data={events}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => <EventItem event={item} />}
+              />
+            </ScrollView>
           </VStack>
         </Center>
       </ScrollView>
@@ -71,8 +73,6 @@ export default function Calendar() {
 }
 
 const EventItem = ({ event }: { event: any }) => {
-  console.log(event);
-
   return (
     <HStack
       backgroundColor={"white"}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Center,
@@ -16,7 +16,6 @@ import { User } from "../../../utils/user";
 import Footer from "../../../components/Footer/Footer";
 import useEvents from "../../../hooks/useEvents";
 import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
-import useUser from "../../../hooks/useUser";
 
 export default function ProvisionOfServices() {
   const { navigation } = useGlobalContext();
@@ -45,6 +44,14 @@ export default function ProvisionOfServices() {
   const { acceptContractEvent } = useEvents();
 
   const user = User.getUser();
+
+  useEffect(() => {
+    get()
+  }, [])
+
+  const get = async () => {
+
+  }
 
   return (
     <>
@@ -178,7 +185,7 @@ export default function ProvisionOfServices() {
               onChange={(value) => setConfirm(value)}
             >
               <Text fontFamily="PathwayRegular" fontSize={16}>
-                Confirmo que li e estou de acordo {"\n"}com o contrato
+                Confirmo que li e estou de acordo {"\n"}com a minuta
               </Text>
             </Checkbox>
 
