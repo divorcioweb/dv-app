@@ -20,6 +20,7 @@ export const validationRedirect = (status: string, type?: number) => {
   } else if (status === statusUser[6]) {
     return "minuta";
   } else if (status === statusUser[7]) {
+    return "calendar";
     return "agendamento";
   } else {
     return "calendar";

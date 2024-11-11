@@ -4,6 +4,23 @@ import Toast from "react-native-toast-message";
 export default function useEvents() {
   const api = process.env.EXPO_PUBLIC_API_URL as string;
 
+  const getEvents = async () => {
+    try {
+      const response = await fetch(api + "/events", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
+        },
+      });
+
+      return await response.json();
+    } catch (error) {
+      console.error("TUDO ERRADO", error);
+      return null;
+    }
+  };
+
   const saveEvent = async ({
     data,
     titulo,
@@ -27,7 +44,7 @@ export default function useEvents() {
         }),
       });
 
-      return response
+      return response;
     } catch (error) {
       console.error("TUDO ERRADO", error);
       return null;
@@ -71,5 +88,5 @@ export default function useEvents() {
     }
   };
 
-  return { saveEvent, acceptContractEvent };
+  return { saveEvent, acceptContractEvent, getEvents };
 }
