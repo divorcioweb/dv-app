@@ -144,12 +144,12 @@ export default function Certificate() {
                       setIsLoading(true);
                       const response: any = await saveEvent({
                         data: new Date().toISOString(),
-                        status: "Acompanhamento de eventos",
+                        status: "Aguardando aceite da minuta",
                         titulo: "Aceito de renúncia aos alimentos",
                       });
 
                       if (response.ok) {
-                        router.push("/calendar");
+                        router.push("/minuta");
                       }
                     } finally {
                       setIsLoading(false);

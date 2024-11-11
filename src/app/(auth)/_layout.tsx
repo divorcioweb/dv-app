@@ -52,6 +52,7 @@ export default function Layout() {
           />
           <Stack.Screen name="escritura" options={{ headerShown: false }} />
           <Stack.Screen name="minuta" options={{ headerShown: false }} />
+          <Stack.Screen name="agendamento" options={{ headerShown: false }} />
         </Stack>
       )}
     </>

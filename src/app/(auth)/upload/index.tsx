@@ -15,15 +15,15 @@ import React from "react";
 import { Alert, ScrollView } from "react-native";
 import { AntDesign, MaterialIcons, Feather } from "@expo/vector-icons";
 
-import CardWhatsApp from "../../../components/CardWhatsApp/CardWhatsApp";
-import Footer from "../../../components/Footer/Footer";
-import * as DocumentPicker from "expo-document-picker";
 import { bodyFile } from "../../../utils/bodyFile";
-import UploadFile from "../../../components/Upload/Upload";
-import useDocs from "../../../hooks/useDocs";
 import { router } from "expo-router";
 import { useGlobalContext } from "../../../context/context";
+import CardWhatsApp from "../../../components/CardWhatsApp/CardWhatsApp";
+import Footer from "../../../components/Footer/Footer";
+import UploadFile from "../../../components/Upload/Upload";
+import useDocs from "../../../hooks/useDocs";
 import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
+import * as DocumentPicker from "expo-document-picker";
 
 export default function Upload() {
   const [IAgree, setIAgree] = React.useState(false);
@@ -73,7 +73,7 @@ export default function Upload() {
         setIsLoading(true);
         const result = await uploadDocs(selectedFile);
         if (result) {
-          router.push("/certificate");
+          router.push("/explicativo");
         }
       } finally {
         setIsLoading(false);

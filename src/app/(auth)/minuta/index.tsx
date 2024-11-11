@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import {
-  Box,
   Button,
   Center,
   Heading,
@@ -13,12 +12,11 @@ import { Alert, ScrollView } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { useGlobalContext } from "../../../context/context";
 import { colors } from "../../../theme/colors";
-import { screens } from "../../../mock/screens";
+import { User } from "../../../utils/user";
 import Footer from "../../../components/Footer/Footer";
 import useEvents from "../../../hooks/useEvents";
 import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 import useUser from "../../../hooks/useUser";
-import { User, UserData } from "../../../utils/user";
 
 export default function ProvisionOfServices() {
   const { navigation } = useGlobalContext();
@@ -45,7 +43,6 @@ export default function ProvisionOfServices() {
   };
 
   const { acceptContractEvent } = useEvents();
-  const { getUser } = useUser();
 
   const user = User.getUser();
 
@@ -189,7 +186,7 @@ export default function ProvisionOfServices() {
               <Button
                 onPress={() => {
                   Alert.alert(
-                    "Para seguir você precisa ler e aceitar o contrato de serviço"
+                    "Para seguir você precisa ler e aceitar a minuta!"
                   );
                 }}
                 backgroundColor={"white"}
@@ -206,44 +203,18 @@ export default function ProvisionOfServices() {
                   if (confirm) {
                     try {
                       setIsLoading(true);
-                      const response = await acceptContractEvent({
+                      await acceptContractEvent({
                         data: new Date().toISOString(),
-                        titulo: "Contrato de serviço aceito",
-                        status: "Aguardando confirmação de pagamento",
+                        titulo: "Aceite de minuta",
+                        status: "Aguardando agendamento de audiencia",
                       });
-
-                      const user: UserData = await getUser(User.getUser()?.id);
-                      if (
-                        response.status === "Aguardando envio de documentos"
-                      ) {
-                        navigation(screens.upload, true);
-                      } else {
-                        if (response.type === 1) {
-                          navigation(screens.payment, true);
-                        } else {
-                          if (user.conjuge.pagamento.pago) {
-                            navigation(screens.paymentConjuge, true);
-                          } else {
-                            Alert.alert(
-                              "Aguarde seu cônjuge iniciar primeira etapa do pagamento!",
-                              "",
-                              [
-                                {
-                                  onPress: () => {
-                                    navigation("calendar", true);
-                                  },
-                                },
-                              ]
-                            );
-                          }
-                        }
-                      }
+                      navigation("agendamento");
                     } finally {
                       setIsLoading(false);
                     }
                   } else {
                     Alert.alert(
-                      "Para seguir você precisa ler e aceitar o contrato de serviço"
+                      "Para seguir você precisa ler e aceitar a minuta!"
                     );
                   }
                 }}
