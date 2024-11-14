@@ -13,6 +13,7 @@ interface IContext {
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
 
   navigation: (path: string, alterFooter?: boolean) => void;
   logout: () => void;
@@ -48,8 +49,8 @@ export const ContextProvider = ({
           setIsLoading(true);
           const user = await signIn({ email, senha });
           if (user) {
-            navigation(validationRedirect(user.status, user.type), true);
             setIsAuth(true);
+            navigation(validationRedirect(user.status, user.type), true);
           }
         } finally {
           setIsLoading(false);
@@ -95,6 +96,7 @@ export const ContextProvider = ({
         isLoading,
         setIsLoading,
         selected,
+        setSelected,
         navigation,
         logout,
       }}

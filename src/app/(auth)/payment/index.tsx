@@ -15,7 +15,7 @@ import { useGlobalContext } from "../../../context/context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Slider } from "@react-native-assets/slider";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "../../../components/Footer/Footer";
 import {
   CardField,
@@ -32,8 +32,17 @@ export default function PaymentScreen() {
   const { isLoading, setIsLoading } = useGlobalContext();
 
   const [selectedValue, setSelectedValue] = React.useState(2);
+  const [isPaymentAll, setIsPaymentAll] = React.useState(true);
 
   const percentages = [10, 50, 100];
+
+  useEffect(() => {
+    if (selectedValue === 2) {
+      setIsPaymentAll(true);
+    } else {
+      setIsPaymentAll(false);
+    }
+  }, [selectedValue]);
 
   return (
     <>
@@ -80,7 +89,15 @@ export default function PaymentScreen() {
               </HStack>
               <HStack mt={2}>
                 <FormControl w={"25%"}>
-                  <Radio.Group defaultValue="sim" name="myRadioGroup" space={2}>
+                  <Radio.Group
+                    defaultValue="sim"
+                    name="myRadioGroup"
+                    space={2}
+                    value={isPaymentAll ? "sim" : "nao"}
+                    onChange={(e) =>
+                      setIsPaymentAll(e === "sim" ? true : false)
+                    }
+                  >
                     <Radio value="sim" my={1}>
                       Sim
                     </Radio>

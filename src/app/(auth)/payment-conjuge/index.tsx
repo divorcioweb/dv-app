@@ -39,15 +39,14 @@ export default function PaymentScreenConjuge() {
   const get = async () => {
     try {
       setIsLoading(true);
-
-      if (!user.conjuge?.pagamento.pago) {
-        navigation("calendar", true);
-        Toast.show({
-          text1: "Aguarde o cônjuge iniciar o pagamento!",
-          text2:
-            "É preciso aguardar o cônjuge finalizar sua etapa de pagamento",
-          type: "info",
-        });
+      if (user.conjuge?.pagamento.pago === false) {
+        Alert.alert("Aguarde o cônjuge iniciar o pagamento!", "", [
+          {
+            onPress: () => {
+              navigation("calendar", true);
+            },
+          },
+        ]);
       }
     } finally {
       setIsLoading(false);
@@ -128,7 +127,7 @@ export default function PaymentScreenConjuge() {
                   onPress={async () => {
                     try {
                       setIsLoading(true);
-                      console.log(process.env.STRIPE_KEY_PUBLISH as string)
+                      console.log(process.env.STRIPE_KEY_PUBLISH as string);
                       const { paymentIntent: intentKey } = await intentPayment(
                         Number(user.pagamento?.porcentagem)
                       );

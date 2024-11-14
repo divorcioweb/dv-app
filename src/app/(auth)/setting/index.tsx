@@ -1,11 +1,4 @@
-import {
-  Button,
-  Center,
-  Heading,
-  Modal,
-  Text,
-  VStack,
-} from "native-base";
+import { Button, Center, Heading, Modal, Text, VStack } from "native-base";
 import { colors } from "../../../theme/colors";
 import React, { useState } from "react";
 
@@ -36,11 +29,7 @@ export default function Setting() {
           flex={1}
           style={{ backgroundColor: colors.background }}
         >
-          <VStack
-            w="full"
-            maxW={350}
-            mt={5}
-          >
+          <VStack w="full" maxW={350} mt={5}>
             <Heading fontFamily="PathwayBold" fontSize={32}>
               Configurações
             </Heading>
@@ -200,45 +189,48 @@ export default function Setting() {
         </Center>
       </ScrollView>
       <Footer />
-
-      <Modal
-        isOpen={modalVisible}
-        onClose={() => setModalVisible(false)}
-        avoidKeyboard
-        bottom="4"
-        size="lg"
-      >
-        <Modal.Content rounded={"3xl"}>
-          <Modal.CloseButton />
-          <Modal.Header flexDirection={"row"} alignItems={"center"}>
-            <Feather name="phone" size={24} color="black" />
-            <Heading fontFamily="PathwayBold" ml={4} fontSize={32}>
-              Fale com o {"\n"}advogado
-            </Heading>
-          </Modal.Header>
-          <Modal.Body>
-            <Text fontFamily="PathwayRegular" textAlign={"center"}>
-              Tem alguma dúvida ou problema com o aplicativo, ligue para nós
-              pelo número abaixo.
-            </Text>
-            <Button
-              my={4}
-              onPress={() => redirectWhatsApp("21987578661")}
-              rounded={"2xl"}
-              backgroundColor={colors.disabled}
-              borderWidth={1}
-              leftIcon={<FontAwesome name="whatsapp" size={36} color="black" />}
-            >
-              <Text fontSize={24} fontFamily="PathwayBold" ml={4}>
-                21 98757-8661
+      {modalVisible && (
+        <Modal
+          isOpen={true}
+          onClose={() => setModalVisible(false)}
+          avoidKeyboard
+          bottom="4"
+          size="lg"
+        >
+          <Modal.Content rounded={"3xl"}>
+            <Modal.CloseButton />
+            <Modal.Header flexDirection={"row"} alignItems={"center"}>
+              <Feather name="phone" size={24} color="black" />
+              <Heading fontFamily="PathwayBold" ml={4} fontSize={32}>
+                Fale com o {"\n"}advogado
+              </Heading>
+            </Modal.Header>
+            <Modal.Body>
+              <Text fontFamily="PathwayRegular" textAlign={"center"}>
+                Tem alguma dúvida ou problema com o aplicativo, ligue para nós
+                pelo número abaixo.
               </Text>
-            </Button>
-            <Text fontFamily="PathwayRegular" textAlign={"center"}>
-              Atendimento de segunda à sexta das 9h às 18h
-            </Text>
-          </Modal.Body>
-        </Modal.Content>
-      </Modal>
+              <Button
+                my={4}
+                onPress={() => redirectWhatsApp("21987578661")}
+                rounded={"2xl"}
+                backgroundColor={colors.disabled}
+                borderWidth={1}
+                leftIcon={
+                  <FontAwesome name="whatsapp" size={36} color="black" />
+                }
+              >
+                <Text fontSize={24} fontFamily="PathwayBold" ml={4}>
+                  21 98757-8661
+                </Text>
+              </Button>
+              <Text fontFamily="PathwayRegular" textAlign={"center"}>
+                Atendimento de segunda à sexta das 9h às 18h
+              </Text>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
+      )}
     </>
   );
 }

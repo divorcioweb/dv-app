@@ -3,10 +3,18 @@ import { Button, Center, HStack } from "native-base";
 import { colors } from "../../theme/colors";
 import { useGlobalContext } from "../../context/context";
 import { screens } from "../../mock/screens";
+import { usePathname } from "expo-router";
+import { useEffect } from "react";
 
 export default function Footer() {
   const size = 30;
-  const { selected, navigation } = useGlobalContext();
+  const { selected, navigation, setSelected } = useGlobalContext();
+
+  const pathname = usePathname()
+
+  useEffect(() => {
+    setSelected(pathname.replace('/', ''))
+  }, [pathname])
 
   return (
     <>
