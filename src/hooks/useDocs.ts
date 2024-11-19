@@ -7,7 +7,15 @@ export default function useDocs() {
 
   const uploadDocs = async (files: any) => {
     try {
-      const formData = createFormData(files);
+      const formData: any = new FormData();
+
+      files.forEach((file: any, index: any) => {
+        formData.append("files", {
+          uri: file.uri,
+          name: file.name || `file-${index}`,
+          type: file.mimeType,
+        });
+      });
 
       const response = await fetch(api + "/documents/files", {
         method: "POST",
@@ -19,18 +27,23 @@ export default function useDocs() {
 
       if (!response.ok) {
         Toast.show({
-          text1: "Não foi possivel fazer upload dos seus documentos",
+          text1: "Não foi possível fazer upload dos seus documentos",
           type: "error",
         });
         return false;
       }
+
       Toast.show({
         text1: "Documentos enviados com sucesso!",
         type: "success",
       });
       return true;
     } catch (error) {
-      console.error("Error during sign in:", error);
+      console.error("Error during file upload:", error);
+      Toast.show({
+        text1: "Erro ao fazer upload dos documentos",
+        type: "error",
+      });
       return null;
     }
   };
