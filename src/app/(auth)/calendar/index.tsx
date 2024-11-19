@@ -1,4 +1,12 @@
-import { Box, Center, HStack, Heading, Text, VStack } from "native-base";
+import {
+  Box,
+  Button,
+  Center,
+  HStack,
+  Heading,
+  Text,
+  VStack,
+} from "native-base";
 import { colors } from "../../../theme/colors";
 import React, { useEffect, useState } from "react";
 
@@ -6,19 +14,34 @@ import { ScrollView, FlatList } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Footer from "../../../components/Footer/Footer";
 import useEvents from "../../../hooks/useEvents";
+import Loading from "../../../components/Loading/Loading";
+import { User } from "../../../utils/user";
+import { useGlobalContext } from "../../../context/context";
 
 export default function Calendar() {
+  const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState<any[]>([]);
+  const [scriture, setScriture] = useState<any>({});
 
-  const { getEvents } = useEvents();
+  const { getEvents, getScriture } = useEvents();
+  const { navigation } = useGlobalContext();
 
   useEffect(() => {
     get();
   }, []);
 
   const get = async () => {
-    setEvents(await getEvents());
+    try {
+      // setIsLoading(true);
+      setEvents(await getEvents());
+      setScriture(await getScriture());
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  console.log("=", scriture);
+  console.log("=", scriture?.escritura);
 
   return (
     <>
@@ -42,7 +65,6 @@ export default function Calendar() {
             <Text fontFamily="PathwayRegular" fontSize={16} mt={2}>
               Acompanhe abaixo as etapas agendadas
             </Text>
-
             <Box
               backgroundColor={"white"}
               width={"20"}
@@ -55,15 +77,131 @@ export default function Calendar() {
                 Você
               </Text>
             </Box>
-
-            {/* FlatList para exibir os eventos */}
-            <ScrollView style={{ maxHeight: "42%" }}>
+            {isLoading ? (
+              <Loading />
+            ) : (
               <FlatList
                 data={events}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <EventItem event={item} />}
+                contentContainerStyle={{ paddingBottom: 10 }}
+                style={{ maxHeight: 265 }}
               />
-            </ScrollView>
+            )}
+            {!scriture?.escritura && (
+              <>
+                <HStack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  padding="2px"
+                  backgroundColor={colors.greenDark}
+                  w="100%"
+                  rounded="xl"
+                  mt={4}
+                >
+                  <Box
+                    w="15%"
+                    h={"90%"}
+                    alignItems={"center"}
+                    justifyContent={"start"}
+                  >
+                    <AntDesign
+                      name="exclamationcircleo"
+                      size={26}
+                      color="white"
+                      mx="auto"
+                    />
+                  </Box>
+                  <Box
+                    backgroundColor="white"
+                    w="85%"
+                    h="100%"
+                    borderTopRightRadius="10px"
+                    borderBottomRightRadius="10px"
+                    paddingX={2}
+                    paddingY={2}
+                  >
+                    <Text fontFamily="PathwayBold" fontSize={16}>
+                      Escritura de divórcio finalizada
+                    </Text>
+                    <Text mt={2} fontFamily="PathwayRegular" fontSize={14}>
+                      Olá, {User.getUser()?.nome}
+                    </Text>
+                    <Text mt={2} fontFamily="PathwayRegular" fontSize={14}>
+                      Sua escritura de divórcio já está pronta! Agradecemos a
+                      confiança no divórcioweb para te apoiar nesse novo início
+                      de ciclo.
+                    </Text>
+                    <Text mt={2} fontFamily="PathwayRegular" fontSize={14}>
+                      Agora você deverá baixar sua escritura em pdf e averbá-la
+                      em cartório.
+                    </Text>
+                    <Button
+                      w={"80%"}
+                      h={52}
+                      mt={5}
+                      mb={4}
+                      rounded="2xl"
+                      colorScheme={colors.yellow}
+                      onPress={() => {
+                        navigation("escritura");
+                      }}
+                    >
+                      <Text
+                        fontSize={18}
+                        fontFamily="PathwayBold"
+                        textAlign="center"
+                        color="black"
+                      >
+                        Visualizar escritura
+                      </Text>
+                    </Button>
+                  </Box>
+                </HStack>
+
+                <HStack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  padding="2px"
+                  backgroundColor={colors.greenDark}
+                  w="100%"
+                  rounded="xl"
+                  mt={4}
+                >
+                  <Box
+                    w="15%"
+                    h={"90%"}
+                    alignItems={"center"}
+                    justifyContent={"start"}
+                  >
+                    <AntDesign
+                      name="exclamationcircleo"
+                      size={26}
+                      color="white"
+                      mx="auto"
+                    />
+                  </Box>
+                  <Box
+                    backgroundColor="white"
+                    w="85%"
+                    h="100%"
+                    borderTopRightRadius="10px"
+                    borderBottomRightRadius="10px"
+                    paddingX={2}
+                    paddingY={3}
+                  >
+                    <Text fontFamily="PathwayBold" fontSize={16}>
+                      Download da escritura feito
+                    </Text>
+                    <Text mt={2} fontFamily="PathwayRegular" fontSize={14}>
+                      Você já efetuou o download da escritura em 7 dias a contar
+                      desta data, seus dados serão excluídos do aplicativo como
+                      forma de lei de privacidade.
+                    </Text>
+                  </Box>
+                </HStack>
+              </>
+            )}
           </VStack>
         </Center>
       </ScrollView>

@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { Button, Center, Heading, Text, VStack } from "native-base";
 import { colors } from "../../../theme/colors";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { Alert, ScrollView, TouchableOpacity } from "react-native";
+import { useGlobalContext } from "../../../context/context";
+
+import useEvents from "../../../hooks/useEvents";
+import LoadingTransparent from "../../../components/LoadingTransparent/LoadingTransparent";
 
 export default function ChangePassword() {
   const [selectedPeriod, setSelectedPeriod] = useState("Manha");
   const [selectedDay, setSelectedDay] = useState("Segunda");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { saveEvent, preferenceSchedule } = useEvents();
+  const { navigation } = useGlobalContext();
 
   const handleSelectPeriod = (period: string) => {
     setSelectedPeriod(period);
@@ -15,8 +23,29 @@ export default function ChangePassword() {
     setSelectedDay(day);
   };
 
+  const handleConfirm = async () => {
+    try {
+      setIsLoading(true);
+
+      await preferenceSchedule({
+        preferencia_dia_da_semana: selectedDay,
+        preferencia_turno: selectedPeriod,
+      });
+
+      await saveEvent({
+        data: new Date().toISOString(),
+        titulo: "Preferência selecionado",
+        status: "Aguardando...",
+      });
+      navigation("calendar", true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
+      {isLoading && <LoadingTransparent />}
       <ScrollView style={{ backgroundColor: colors.background }}>
         <Center
           w="100%"
@@ -133,6 +162,22 @@ export default function ChangePassword() {
               rounded="2xl"
               mx="auto"
               colorScheme={colors.yellow}
+              onPress={() => {
+                Alert.alert(
+                  "Essa é a sua preferência de dia e turno para audiência?",
+                  "",
+                  [
+                    {
+                      text: "Não",
+                      onPress: () => {},
+                    },
+                    {
+                      text: "Sim",
+                      onPress: async () => await handleConfirm(),
+                    },
+                  ]
+                );
+              }}
             >
               <Text fontSize={18} fontFamily="PathwayBold">
                 Salvar

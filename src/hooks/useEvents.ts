@@ -88,5 +88,54 @@ export default function useEvents() {
     }
   };
 
-  return { saveEvent, acceptContractEvent, getEvents };
+  const preferenceSchedule = async ({
+    preferencia_dia_da_semana,
+    preferencia_turno,
+  }: {
+    preferencia_dia_da_semana: string;
+    preferencia_turno: string;
+  }) => {
+    try {
+      const response = await fetch(api + "/events/agendamento", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          preferencia_dia_da_semana,
+          preferencia_turno,
+        }),
+      });
+
+      return response;
+    } catch (error) {
+      console.error("TUDO ERRADO", error);
+      return null;
+    }
+  };
+
+  const getScriture = async () => {
+    try {
+      const response = await fetch(api + "/events/escritura", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
+        },
+      });
+
+      return response.json();
+    } catch (error) {
+      console.error("TUDO ERRADO", error);
+      return null;
+    }
+  };
+
+  return {
+    saveEvent,
+    acceptContractEvent,
+    getEvents,
+    preferenceSchedule,
+    getScriture,
+  };
 }
