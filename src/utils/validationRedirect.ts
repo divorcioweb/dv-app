@@ -33,5 +33,5 @@ const statusUser = {
   4: "Aguardando envio de documentos",
   5: "Aguardando renuncio de alimentos",
   6: "Aguardando aceite da minuta",
-  7: "Aguardando agendamento de audiencia",
+  7: "Aguardando preferência de agendamento",
 };

@@ -213,7 +213,7 @@ export default function ProvisionOfServices() {
                       await acceptContractEvent({
                         data: new Date().toISOString(),
                         titulo: "Aceite de minuta",
-                        status: "Aguardando agendamento de audiencia",
+                        status: "Aguardando preferência de agendamento",
                       });
                       navigation("agendamento");
                     } finally {
